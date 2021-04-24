@@ -42,7 +42,7 @@ public class ICount {
                     routine.addBefore("pt/ulisboa/tecnico/cnv/server/WebServer", "count", new Integer(routine.getInstructionCount()));
 
                     if (routine.getMethodName().equals("solveImage")) {
-                        routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "testPrint", 0);
+                        routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
                     }
                 }
                 ci.write(argv[1] + System.getProperty("file.separator") + infilename);

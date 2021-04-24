@@ -59,13 +59,15 @@ public class WebServer {
 		System.out.println(server.getAddress().toString());
 	}
 
-	public static synchronized void testPrint(int zero) {
-		System.out.println("TESTE PRINT");
+	public static synchronized void printThreadIcount(int zero) {
 		long threadId = Thread.currentThread().getId();
+		System.out.println("Thread with id " + threadId + " printing instruction count metrics to file");
+		Request currentRequest = requests.get(threadId);
+		Metrics currentMetrics = currentRequest.getMetrics();
 		long currentCount = requests.get(threadId).getMetrics().getNumberInstructions();
 
 		try {
-			String str = "Current thread with id " + threadId + " solved with " + currentCount + " instructions\n";
+			String str = "Current thread with id " + threadId + " " + currentRequest.toString() + "\n";
 			FileOutputStream outputStream = new FileOutputStream("teste.txt", true);
 			byte[] strToBytes = str.getBytes();
 			outputStream.write(strToBytes);

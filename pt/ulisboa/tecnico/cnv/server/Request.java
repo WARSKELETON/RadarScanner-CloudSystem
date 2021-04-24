@@ -70,18 +70,18 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request{" +
-                "width=" + width +
-                ", height=" + height +
-                ", viewportTopLeftX=" + viewportTopLeftX +
-                ", viewportTopLeftY=" + viewportTopLeftY +
-                ", viewportBottomRightX=" + viewportBottomRightX +
-                ", viewportBottomRightY=" + viewportBottomRightY +
-                ", startingPointX=" + startingPointX +
-                ", startingPointY=" + startingPointY +
-                ", strategy='" + strategy + '\'' +
-                ", image='" + image + '\'' +
-                ", metrics=" + metrics +
-                '}';
+        return "\nRequest{" +
+                "\nwidth=" + width +
+                ",\nheight=" + height +
+                ",\nviewportTopLeftX=" + viewportTopLeftX +
+                ",\nviewportTopLeftY=" + viewportTopLeftY +
+                ",\nviewportBottomRightX=" + viewportBottomRightX +
+                ",\nviewportBottomRightY=" + viewportBottomRightY +
+                ",\nstartingPointX=" + startingPointX +
+                ",\nstartingPointY=" + startingPointY +
+                ",\nstrategy='" + strategy + '\'' +
+                ",\nimage='" + image + '\'' +
+                ",\nmetrics=" + metrics +
+                "}\n";
     }
 }

@@ -27,10 +27,10 @@ public class Metrics {
     @Override
     public String toString() {
         return "Metrics{" +
-                "numberInstructions=" + numberInstructions +
-                ", basicBlocks=" + basicBlocks +
-                ", depthStack=" + depthStack +
-                ", callsFunctions=" + callsFunctions +
-                '}';
+                "\nnumberInstructions=" + numberInstructions +
+                ",\nbasicBlocks=" + basicBlocks +
+                ",\ndepthStack=" + depthStack +
+                ",\ncallsFunctions=" + callsFunctions +
+                "}\n";
     }
 }
