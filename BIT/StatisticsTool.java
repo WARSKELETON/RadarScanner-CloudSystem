@@ -119,7 +119,7 @@ public class StatisticsTool
 
         for (int i = 0; i < filelist.length; i++) {
             String filename = filelist[i];
-            if (filename.endsWith("Solver.class") || filename.equals("SolverArgumentParser.class") || filename.equals("Solver$Viewport.class") || filename.equals("SolverArgumentParser$SolverParameters.class") || filename.equals("SolverMain.class")) {
+            if (filename.endsWith(".class")) {
                 String in_filename = in_dir.getAbsolutePath() + System.getProperty("file.separator") + filename;
                 String out_filename = out_dir.getAbsolutePath() + System.getProperty("file.separator") + filename;
                 ClassInfo ci = new ClassInfo(in_filename);
