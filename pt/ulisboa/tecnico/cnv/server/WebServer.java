@@ -5,11 +5,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.FileOutputStream;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import java.util.concurrent.Executors;
 
@@ -26,6 +29,7 @@ import javax.imageio.ImageIO;
 public class WebServer {
 
 	static ServerArgumentParser sap = null;
+	private static Map<Long, Integer> i_counts = new ConcurrentHashMap<>();
 
 	public static void main(final String[] args) throws Exception {
 
@@ -53,6 +57,30 @@ public class WebServer {
 		server.start();
 
 		System.out.println(server.getAddress().toString());
+	}
+
+	public static synchronized void testPrint(int zero) {
+		System.out.println("TESTE PRINT");
+		long threadId = Thread.currentThread().getId();
+		int currentCount = i_counts.get(threadId);
+
+		try {
+			String str = "Current thread with id " + threadId + " solved with " + currentCount + " instructions\n";
+			FileOutputStream outputStream = new FileOutputStream("teste.txt", true);
+			byte[] strToBytes = str.getBytes();
+			outputStream.write(strToBytes);
+
+			outputStream.close();
+		} catch (IOException exception) {
+			System.err.println("Caught IOException when writing to file");
+		}
+	}
+
+	public static synchronized void count(int incr) {
+		long threadId = Thread.currentThread().getId();
+		int currentCount = i_counts.get(threadId);
+
+		i_counts.put(threadId, currentCount + incr);
 	}
 
 	static class MyHandler implements HttpHandler {
@@ -107,7 +135,7 @@ public class WebServer {
 				System.out.println("ar: " + ar);
 			} */
 
-
+			i_counts.put(Thread.currentThread().getId(), 0);
 
 			// Create solver instance from factory.
 			final Solver s = SolverFactory.getInstance().makeSolver(args);

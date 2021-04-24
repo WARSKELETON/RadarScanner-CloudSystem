@@ -1,0 +1,12 @@
+Current thread with id 12 solved with 488540 instructions
+Current thread with id 12 solved with 33190725 instructions
+Current thread with id 12 solved with 589114 instructions
+Current thread with id 12 solved with 38375700 instructions
+Current thread with id 12 solved with 589114 instructions
+Current thread with id 12 solved with 519693 instructions
+Current thread with id 16 solved with 10264542 instructions
+Current thread with id 17 solved with 8351025 instructions
+Current thread with id 17 solved with 4473214 instructions
+Current thread with id 15 solved with 1967152027 instructions
+Current thread with id 15 solved with 4344750 instructions
+Current thread with id 15 solved with 22599128 instructions
