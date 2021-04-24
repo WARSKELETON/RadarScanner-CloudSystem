@@ -23,4 +23,14 @@ public class Metrics {
     public void setDepthStack(long depthStack) { this.depthStack = depthStack; }
     public long getCallsFunctions() { return callsFunctions; }
     public void setCallsFunctions(long callsFunctions) { this.callsFunctions = callsFunctions; }
+
+    @Override
+    public String toString() {
+        return "Metrics{" +
+                "numberInstructions=" + numberInstructions +
+                ", basicBlocks=" + basicBlocks +
+                ", depthStack=" + depthStack +
+                ", callsFunctions=" + callsFunctions +
+                '}';
+    }
 }

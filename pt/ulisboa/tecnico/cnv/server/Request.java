@@ -67,4 +67,21 @@ public class Request {
     public String getStrategy() { return strategy; }
     public String getImage() { return image; }
     public Metrics getMetrics() { return metrics; }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "width=" + width +
+                ", height=" + height +
+                ", viewportTopLeftX=" + viewportTopLeftX +
+                ", viewportTopLeftY=" + viewportTopLeftY +
+                ", viewportBottomRightX=" + viewportBottomRightX +
+                ", viewportBottomRightY=" + viewportBottomRightY +
+                ", startingPointX=" + startingPointX +
+                ", startingPointY=" + startingPointY +
+                ", strategy='" + strategy + '\'' +
+                ", image='" + image + '\'' +
+                ", metrics=" + metrics +
+                '}';
+    }
 }
