@@ -29,7 +29,7 @@ import javax.imageio.ImageIO;
 public class WebServer {
 
 	static ServerArgumentParser sap = null;
-	private static Map<Long, Integer> i_counts = new ConcurrentHashMap<>();
+	private static Map<Long, Request> requests = new ConcurrentHashMap<>();
 
 	public static void main(final String[] args) throws Exception {
 
@@ -62,7 +62,7 @@ public class WebServer {
 	public static synchronized void testPrint(int zero) {
 		System.out.println("TESTE PRINT");
 		long threadId = Thread.currentThread().getId();
-		int currentCount = i_counts.get(threadId);
+		long currentCount = requests.get(threadId).getMetrics().getNumberInstructions();
 
 		try {
 			String str = "Current thread with id " + threadId + " solved with " + currentCount + " instructions\n";
@@ -78,9 +78,8 @@ public class WebServer {
 
 	public static synchronized void count(int incr) {
 		long threadId = Thread.currentThread().getId();
-		int currentCount = i_counts.get(threadId);
-
-		i_counts.put(threadId, currentCount + incr);
+		Metrics met = requests.get(threadId).getMetrics();
+		met.setNumberInstructions(met.getNumberInstructions() + incr);
 	}
 
 	static class MyHandler implements HttpHandler {
@@ -135,7 +134,7 @@ public class WebServer {
 				System.out.println("ar: " + ar);
 			} */
 
-			i_counts.put(Thread.currentThread().getId(), 0);
+			requests.put(Thread.currentThread().getId(), new Request(args));
 
 			// Create solver instance from factory.
 			final Solver s = SolverFactory.getInstance().makeSolver(args);

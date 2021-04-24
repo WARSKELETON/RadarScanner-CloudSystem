@@ -3,46 +3,59 @@ package pt.ulisboa.tecnico.cnv.server;
 
 public class Request {
 
-    enum Strategy {
-        GRID_SCAN,
-        PROGRESSIVE_SCAN,
-        GREEDY_RANGE_SCAN
-    }
+    private int width;
+    private int height;
+    private int viewportTopLeftX;
+    private int viewportTopLeftY;
+    private int viewportBottomRightX;
+    private int viewportBottomRightY;
+    private int startingPointX;
+    private int startingPointY;
+    private String strategy;
+    private String image;
+    private final Metrics metrics;
 
-    private final Strategy strategy;
-    private final int width;
-    private final int height;
-    private final int viewportTopLeftX;
-    private final int viewportTopLeftY;
-    private final int viewportBottomRightX;
-    private final int viewportBottomRightY;
-    private final int startingPointX;
-    private final int startingPointY;
-    private final String imagePath;
-    private final String outputDirPath;
-    private Metrics metrics;
-
-    public Request(Strategy strategy, int width, int height,
-                         int viewportTopLeftX, int viewportTopLeftY,
-                         int viewportBottomRightX, int viewportBottomRightY,
-                         int startingPointX, int startingPointY,
-                         String imagePath, String outputDirPath) {
-        this.strategy = strategy;
-        this.width = width;
-        this.height = height;
-        this.viewportTopLeftX = viewportTopLeftX;
-        this.viewportTopLeftY = viewportTopLeftY;
-        this.viewportBottomRightX = viewportBottomRightX;
-        this.viewportBottomRightY = viewportBottomRightY;
-        this.startingPointX = startingPointX;
-        this.startingPointY = startingPointY;
-        this.imagePath = imagePath;
-        this.outputDirPath = outputDirPath;
+    public Request(String[] args){
+        for (int i = 0; i < args.length; i += 2){
+            switch (args[i]){
+                case "-w":
+                    this.width = Integer.parseInt(args[i+1]);
+                    break;
+                case "-h":
+                    this.height = Integer.parseInt(args[i+1]);
+                    break;
+                case "-x0":
+                    this.viewportTopLeftX = Integer.parseInt(args[i+1]);
+                    break;
+                case "-x1":
+                    this.viewportBottomRightX = Integer.parseInt(args[i+1]);
+                    break;
+                case "-y0":
+                    this.viewportTopLeftY = Integer.parseInt(args[i+1]);
+                    break;
+                case "-y1":
+                    this.viewportBottomRightY = Integer.parseInt(args[i+1]);
+                    break;
+                case "-xS":
+                    this.startingPointX = Integer.parseInt(args[i+1]);
+                    break;
+                case "-yS":
+                    this.startingPointY = Integer.parseInt(args[i+1]);
+                    break;
+                case "-i":
+                    this.image = args[i+1];
+                    break;
+                case "-s":
+                    this.strategy = args[i+1];
+                    break;
+                default:
+                    //should not reach here
+            }
+        }
         this.metrics = new Metrics();
     }
 
     //Getters
-    public Strategy getStrategy() { return strategy; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
     public int getViewportTopLeftX() { return viewportTopLeftX; }
@@ -51,6 +64,7 @@ public class Request {
     public int getViewportBottomRightY() { return viewportBottomRightY; }
     public int getStartingPointX() { return startingPointX; }
     public int getStartingPointY() { return startingPointY; }
-    public String getImagePath() { return imagePath; }
-    public String getOutputDirPath() { return outputDirPath; }
+    public String getStrategy() { return strategy; }
+    public String getImage() { return image; }
+    public Metrics getMetrics() { return metrics; }
 }
