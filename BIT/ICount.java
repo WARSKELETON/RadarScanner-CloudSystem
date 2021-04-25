@@ -31,7 +31,7 @@ public class ICount {
 
         for (int i = 0; i < infilenames.length; i++) {
             String infilename = infilenames[i];
-            if (infilename.endsWith("Solver.class") || infilename.equals("SolverArgumentParser.class") || infilename.equals("Solver$Viewport.class") || infilename.equals("SolverArgumentParser$SolverParameters.class") || infilename.equals("SolverMain.class")) {
+            if (infilename.endsWith("Solver.class") || infilename.equals("SolverArgumentParser.class") || infilename    .equals("Solver$Viewport.class") || infilename.equals("SolverArgumentParser$SolverParameters.class") || infilename.equals("SolverMain.class")) {
                 // create class info object
                 ClassInfo ci = new ClassInfo(argv[0] + System.getProperty("file.separator") + infilename);
 
@@ -56,9 +56,5 @@ public class ICount {
 
     public static synchronized void count(int incr) {
         i_count += incr;
-    }
-
-    public static synchronized int getCount() {
-        return i_count;
     }
 }
