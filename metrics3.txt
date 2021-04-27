@@ -1,0 +1,200 @@
+# datasets/SIMPLE_VORONOI_2048x2048_1.png
+# DynMCount
+
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+yS      1024
+output-directory        /tmp
+y1      2047
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      1024
+x0      0
+x1      2047
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_18-31-49.png
+real    1m46.970s
+user    1m45.422s
+sys     0m1.407s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+x1      1023
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_18-32-21.png
+Dynamic information summary:
+user    0m30.648s
+sys     0m1.122s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+yS      256
+output-directory        /tmp
+y1      511
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      256
+x0      0
+x1      511
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_18-32-32.png
+Dynamic information summary:
+user    0m10.213s
+sys     0m1.069s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+yS      1024
+output-directory        /tmp
+y1      2047
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      1024
+x0      0
+x1      2047
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_18-32-37.png
+Dynamic information summary:
+user    0m3.383s
+sys     0m0.902s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+yS      511
+output-directory        /tmp
+y1      1023
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      511
+x0      0
+x1      1023
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_18-32-42.png
+real    0m4.810s
+user    0m3.962s
+sys     0m0.787s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+yS      256
+output-directory        /tmp
+y1      511
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      256
+x0      0
+x1      511
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_18-32-46.png
+Dynamic information summary:
+user    0m3.478s
+sys     0m0.918s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+yS      1024
+output-directory        /tmp
+y1      2047
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      1024
+x0      0
+x1      2047
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_18-32-51.png
+Dynamic information summary:
+real    0m5.195s
+user    0m4.264s
+sys     0m0.875s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+yS      511
+output-directory        /tmp
+y1      1023
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      511
+x0      0
+x1      1023
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_18-32-55.png
+Dynamic information summary:
+Number of methods: 6700543
+
+real    0m4.243s
+user    0m3.392s
+sys     0m0.789s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width   2048
+y0      0
+yS      256
+output-directory        /tmp
+y1      511
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      256
+x0      0
+x1      511
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_18-32-59.png
+Dynamic information summary:
+Number of methods: 2593710
+
+real    0m4.080s
+user    0m3.006s
+sys     0m1.015s

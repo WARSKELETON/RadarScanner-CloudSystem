@@ -30,6 +30,7 @@ public class WebServer {
 
 	static ServerArgumentParser sap = null;
 	private static Map<Long, Request> requests = new ConcurrentHashMap<>();
+	private static String metricsFilename = "requests.txt";
 
 	public static void main(final String[] args) throws Exception {
 
@@ -59,7 +60,7 @@ public class WebServer {
 		System.out.println(server.getAddress().toString());
 	}
 
-	public static synchronized void printThreadIcount(int zero) {
+	public static void printThreadIcount(int zero) {
 		long threadId = Thread.currentThread().getId();
 		System.out.println("Thread with id " + threadId + " printing instruction count metrics to file");
 		Request currentRequest = requests.get(threadId);
@@ -68,17 +69,16 @@ public class WebServer {
 
 		try {
 			String str = "Current thread with id " + threadId + " " + currentRequest.toString() + "\n";
-			FileOutputStream outputStream = new FileOutputStream("teste.txt", true);
+			FileOutputStream outputStream = new FileOutputStream(metricsFilename, true);
 			byte[] strToBytes = str.getBytes();
 			outputStream.write(strToBytes);
-
 			outputStream.close();
 		} catch (IOException exception) {
 			System.err.println("Caught IOException when writing to file");
 		}
 	}
 
-	public static synchronized void count(int incr) {
+	public static void count(int incr) {
 		long threadId = Thread.currentThread().getId();
 		Metrics met = requests.get(threadId).getMetrics();
 		met.setNumberInstructions(met.getNumberInstructions() + incr);

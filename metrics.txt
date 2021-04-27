@@ -1,0 +1,464 @@
+# datasets/SIMPLE_VORONOI_2048x2048_1.png
+# ICount
+
+width   2048
+y0      0
+yS      1024
+y1      2047
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      1024
+x0      0
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-39-50.png
+
+real    1m38.972s
+user    1m37.456s
+sys     0m1.388s
+width   2048
+y0      0
+yS      511
+y1      1023
+debug   true
+xS      511
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-40-21.png
+
+real    0m31.309s
+user    0m30.087s
+sys     0m1.141s
+width   2048
+y0      0
+yS      256
+y1      511
+debug   true
+xS      256
+x0      0
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-40-33.png
+
+real    0m11.931s
+user    0m10.910s
+sys     0m0.950s
+width   2048
+y0      0
+yS      1024
+y1      2047
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      1024
+x0      0
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_16-40-38.png
+
+real    0m4.327s
+user    0m3.489s
+sys     0m0.791s
+width   2048
+y0      0
+yS      511
+y1      1023
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      511
+x0      0
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_16-40-42.png
+
+real    0m4.612s
+user    0m3.754s
+sys     0m0.807s
+width   2048
+y0      0
+yS      256
+y1      511
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      256
+x0      0
+height  2048
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_16-40-47.png
+
+real    0m4.466s
+user    0m3.636s
+sys     0m0.779s
+width   2048
+y0      0
+yS      1024
+y1      2047
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-40-52.png
+
+real    0m5.014s
+user    0m4.169s
+sys     0m0.791s
+width   2048
+y0      0
+yS      511
+y1      1023
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      511
+x0      0
+x1      1023
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-40-56.png
+
+real    0m4.165s
+user    0m3.230s
+sys     0m0.880s
+width   2048
+y0      0
+yS      256
+y1      511
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      256
+x0      0
+x1      511
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-41-00.png
+
+real    0m4.146s
+user    0m3.307s
+sys     0m0.788s
+
+
+#########################################################################
+
+width   2048
+y0      0
+yS      1024
+y1      2047
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+xS      1024
+x0      0
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-47-29.png
+
+real    1m43.829s
+user    1m42.512s
+sys     0m1.173s
+width   2048
+y0      0
+yS      511
+y1      1023
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+xS      511
+x0      0
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-48-02.png
+
+real    0m32.960s
+user    0m31.923s
+sys     0m0.961s
+width   2048
+y0      0
+yS      256
+y1      511
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+xS      256
+x0      0
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-48-15.png
+
+real    0m13.059s
+user    0m11.954s
+sys     0m1.047s
+width   2048
+y0      0
+yS      1024
+y1      2047
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+xS      1024
+x0      0
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_16-48-20.png
+
+real    0m4.460s
+user    0m3.689s
+sys     0m0.708s
+width   2048
+y0      0
+yS      511
+y1      1023
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+xS      511
+x0      0
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_16-48-24.png
+
+real    0m4.709s
+user    0m3.912s
+sys     0m0.750s
+width   2048
+y0      0
+yS      256
+y1      511
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+xS      256
+x0      0
+gradient        RAINBOW
+
+
+real    0m4.831s
+user    0m4.162s
+xS      1024
+x0      0
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-48-34.png
+
+real    0m5.246s
+user    0m4.343s
+sys     0m0.840s
+width   2048
+y0      0
+yS      511
+y1      1023
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+xS      511
+x0      0
+x1      1023
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-48-39.png
+
+real    0m4.727s
+user    0m3.813s
+sys     0m0.856s
+width   2048
+y0      0
+yS      256
+y1      511
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+xS      256
+x0      0
+x1      511
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-48-44.png
+
+real    0m4.445s
+user    0m3.657s
+sys     0m0.739s
+
+#########################################################################
+
+width   2048
+y0      0
+yS      1024
+y1      2047
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      1024
+x0      0
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-50-51.png
+
+real    1m40.027s
+user    1m38.850s
+sys     0m1.043s
+width   2048
+y0      0
+yS      511
+y1      1023
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      511
+x0      0
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-51-24.png
+
+real    0m32.988s
+user    0m31.973s
+sys     0m0.942s
+width   2048
+y0      0
+yS      256
+y1      511
+strategy        GRID_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      256
+x0      0
+gradient        RAINBOW
+
+
+> Image name: GRID_SCAN_2048x2048_2021-04-24_16-51-37.png
+
+real    0m12.821s
+user    0m11.826s
+sys     0m0.915s
+width   2048
+y0      0
+yS      1024
+y1      2047
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      1024
+x0      0
+height  2048
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_16-51-41.png
+
+real    0m4.325s
+user    0m3.497s
+sys     0m0.776s
+width   2048
+y0      0
+yS      511
+y1      1023
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      511
+x0      0
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_16-51-46.png
+
+real    0m4.713s
+user    0m3.867s
+sys     0m0.792s
+width   2048
+y0      0
+yS      256
+y1      511
+strategy        PROGRESSIVE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      256
+x0      0
+gradient        RAINBOW
+
+
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-24_16-51-50.png
+
+real    0m4.419s
+user    0m3.522s
+sys     0m0.845s
+width   2048
+y0      0
+yS      1024
+y1      2047
+xS      1024
+x0      0
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-51-55.png
+
+real    0m5.054s
+user    0m4.290s
+sys     0m0.709s
+width   2048
+y0      0
+yS      511
+y1      1023
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      511
+x0      0
+x1      1023
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-51-59.png
+
+real    0m4.222s
+user    0m3.394s
+sys     0m0.773s
+width   2048
+y0      0
+yS      256
+y1      511
+strategy        GREEDY_RANGE_SCAN
+paint_color     java.awt.Color[r=0,g=160,b=230]
+debug   true
+xS      256
+x0      0
+x1      511
+input   datasets/SIMPLE_VORONOI_2048x2048_1.png
+height  2048
+gradient        RAINBOW
+
+
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-24_16-52-03.png
+
+real    0m3.975s
+user    0m3.146s
+sys     0m0.777s
