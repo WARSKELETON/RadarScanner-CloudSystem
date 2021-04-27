@@ -1,0 +1,19 @@
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width	512
+y0	0
+yS	256
+output-directory	/tmp
+y1	511
+strategy	GREEDY_RANGE_SCAN
+paint_color	java.awt.Color[r=0,g=160,b=230]
+debug	true
+xS	256
+x0	0
+x1	511
+input	datasets/SIMPLE_VORONOI_512x512_1.png
+height	512
+gradient	RAINBOW
+
+
+Dynamic information summary:
+Number of instructions: 22065767

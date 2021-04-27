@@ -1,0 +1,124 @@
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width	1024
+y0	0
+yS	128
+output-directory	/tmp
+y1	255
+strategy	GREEDY_RANGE_SCAN
+paint_color	java.awt.Color[r=0,g=160,b=230]
+debug	true
+xS	128
+x0	0
+x1	255
+input	datasets/SIMPLE_VORONOI_1024x1024_1.png
+height	1024
+gradient	RAINBOW
+
+
+Branch summary:
+CLASS NAME	METHOD	PC	TAKEN	NOT_TAKEN
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	values	11	0	3
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	28	2	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	containsCoordinate	29	0	25816
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	containsCoordinate	21	0	25816
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	containsCoordinate	13	0	25816
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	containsCoordinate	5	0	25816
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1584	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1569	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1554	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1525	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1408	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1393	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1378	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1349	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverFactory$SolverType	toString	1284	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	1258	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	1141	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	1126	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	1090	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	987	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	972	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	943	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	826	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	811	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	775	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	672	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	657	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	628	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	272	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	189	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	115	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	70	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverArgumentParser$SolverParameters	toString	27	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverFactory	getInstance	3	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverFactory	toString	55	0	1
+pt/ulisboa/tecnico/cnv/solver/SolverFactory	toString	32	1	0
+pt/ulisboa/tecnico/cnv/solver/SolverFactory	toString	9	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	235	1024	1048576
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	222	1	1024
+pt/ulisboa/tecnico/cnv/solver/AbstractSolverStrategy	<init>	73	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	100	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	getRightX	114	1	80
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	getRightX	131	80	5040
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	223	0	2768
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	214	0	2768
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	208	0	2768
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	199	0	2768
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	getRightX	165	2272	2768
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	getRightX	68	80	5040
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	getRightX	56	1	80
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	39	52356	5235600
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	31	52356	52356
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	412	83	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	395	50	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	383	33	50
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	362	33	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	350	50	33
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	332	21	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	320	62	21
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	299	62	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	287	21	62
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	275	83	4
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	171	4	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	166	83	4
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	101	4	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	shiftViewportCorner	96	83	4
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	shiftViewportCorner	31	2	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	shiftViewportCorner	25	2	2
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	shiftViewportCorner	9	2	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	shiftViewportCorner	3	2	2
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	getRightX	1487	1	87
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	1447	13411	51614
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	getBottomY	1425	255	65025
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	getRightX	1404	1	255
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	isDebugging	1383	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	containsCoordinate	1346	0	12314
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	1326	753	12314
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	containsCoordinate	1267	0	593
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	1247	12474	593
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	containsCoordinate	1188	0	474
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	1168	12593	474
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	containsCoordinate	1109	0	12435
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	1089	632	12435
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	1033	13067	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	1025	13067	12753
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	isDebugging	985	1	25820
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	isDebugging	955	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	924	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	875	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	826	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	toString	777	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	666	1	23
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	683	23	345
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	622	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	586	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	550	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	514	0	1
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	491	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	468	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	380	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	357	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	269	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	246	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	158	1	0
+pt/ulisboa/tecnico/cnv/solver/Solver$Viewport	checkBoundaries	135	1	0
