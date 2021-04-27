@@ -5,6 +5,7 @@ public class Metrics {
     private long basicBlocks;
     private long depthStack;
     private long callsFunctions;
+    private boolean isComplete;
 
     public Metrics(){}
 
@@ -13,6 +14,7 @@ public class Metrics {
         this.basicBlocks = basicBlocks;
         this.depthStack = depthStack;
         this.callsFunctions = callsFunctions;
+        this.isComplete = false;
     }
 
     public long getNumberInstructions() { return numberInstructions; }
@@ -23,6 +25,14 @@ public class Metrics {
     public void setDepthStack(long depthStack) { this.depthStack = depthStack; }
     public long getCallsFunctions() { return callsFunctions; }
     public void setCallsFunctions(long callsFunctions) { this.callsFunctions = callsFunctions; }
+
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
+    }
 
     @Override
     public String toString() {

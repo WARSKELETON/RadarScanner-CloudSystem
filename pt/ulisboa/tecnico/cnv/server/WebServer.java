@@ -49,8 +49,6 @@ public class WebServer {
 
 		final HttpServer server = HttpServer.create(new InetSocketAddress(WebServer.sap.getServerAddress(), WebServer.sap.getServerPort()), 0);
 
-
-
 		server.createContext("/scan", new MyHandler());
 
 		// be aware! infinite pool of threads!
@@ -73,6 +71,7 @@ public class WebServer {
 			byte[] strToBytes = str.getBytes();
 			outputStream.write(strToBytes);
 			outputStream.close();
+			currentMetrics.setComplete(true);
 		} catch (IOException exception) {
 			System.err.println("Caught IOException when writing to file");
 		}
@@ -81,6 +80,9 @@ public class WebServer {
 	public static void count(int incr) {
 		long threadId = Thread.currentThread().getId();
 		Metrics met = requests.get(threadId).getMetrics();
+
+		if (met.isComplete()) return;
+
 		met.setNumberInstructions(met.getNumberInstructions() + incr);
 	}
 
