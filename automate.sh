@@ -1,5 +1,5 @@
 #!/bin/bash
-# "baseline" "dynMcount" "alloc" "load_store" "branch"
+# "baseline" "dynMcount" "alloc" "load_store" "branch" "DynICount"
 declare -a StringArray=("baseline" "dynMcount" "alloc" "load_store" "branch")
 
 for val in ${StringArray[@]}; do
@@ -12,6 +12,9 @@ for val in ${StringArray[@]}; do
   elif [ "$val" = "dynMcount" ]; then
     echo $val
     java BIT.DynMCount pt/ulisboa/tecnico/cnv/solver/original/ pt/ulisboa/tecnico/cnv/solver/
+  elif [ "$val" = "DynICount" ]; then
+    echo $val
+    java BIT.DynICount pt/ulisboa/tecnico/cnv/solver/original/ pt/ulisboa/tecnico/cnv/solver/
   elif [ "$val" = "alloc" ]; then
     echo $val
     java BIT.StatisticsTool -alloc pt/ulisboa/tecnico/cnv/solver/original/ pt/ulisboa/tecnico/cnv/solver/
