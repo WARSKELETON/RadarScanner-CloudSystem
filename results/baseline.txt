@@ -1,0 +1,115 @@
+baseline
+64
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GRID_SCAN_2048x2048_2021-04-27_17-14-34.png
+
+real	0m2.073s
+user	0m1.435s
+sys	0m0.622s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-27_17-14-36.png
+
+real	0m1.904s
+user	0m1.459s
+sys	0m0.425s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-27_17-14-38.png
+
+real	0m2.020s
+user	0m1.557s
+sys	0m0.445s
+128
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GRID_SCAN_2048x2048_2021-04-27_17-14-41.png
+
+real	0m3.085s
+user	0m2.666s
+sys	0m0.399s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-27_17-14-44.png
+
+real	0m2.275s
+user	0m1.914s
+sys	0m0.341s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-27_17-14-46.png
+
+real	0m2.261s
+user	0m2.029s
+sys	0m0.212s
+256
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GRID_SCAN_2048x2048_2021-04-27_17-14-51.png
+
+real	0m5.206s
+user	0m4.782s
+sys	0m0.400s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-27_17-14-54.png
+
+real	0m3.421s
+user	0m3.214s
+sys	0m0.190s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-27_17-14-57.png
+
+real	0m2.840s
+user	0m2.116s
+sys	0m0.702s
+512
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GRID_SCAN_2048x2048_2021-04-27_17-15-12.png
+
+real	0m15.063s
+user	0m14.187s
+sys	0m0.842s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-27_17-15-17.png
+
+real	0m4.361s
+user	0m3.658s
+sys	0m0.683s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-27_17-15-20.png
+
+real	0m3.543s
+user	0m2.795s
+sys	0m0.726s
+1024
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GRID_SCAN_2048x2048_2021-04-27_17-15-52.png
+
+real	0m32.082s
+user	0m31.077s
+sys	0m0.945s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-27_17-15-57.png
+
+real	0m4.132s
+user	0m3.360s
+sys	0m0.748s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-27_17-16-00.png
+
+real	0m3.585s
+user	0m2.911s
+sys	0m0.652s
+2048
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GRID_SCAN_2048x2048_2021-04-27_17-17-47.png
+
+real	1m46.668s
+user	1m45.423s
+sys	0m1.074s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: PROGRESSIVE_SCAN_2048x2048_2021-04-27_17-17-51.png
+
+real	0m3.791s
+user	0m2.994s
+sys	0m0.776s
+Picked up _JAVA_OPTIONS: -XX:-UseSplitVerifier
+> Image name: GREEDY_RANGE_SCAN_2048x2048_2021-04-27_17-17-55.png
+
+real	0m4.122s
+user	0m3.602s
+sys	0m0.500s

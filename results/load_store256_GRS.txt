@@ -1,0 +1,22 @@
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width	2048
+y0	0
+yS	128
+output-directory	/tmp
+y1	255
+strategy	GREEDY_RANGE_SCAN
+paint_color	java.awt.Color[r=0,g=160,b=230]
+debug	true
+xS	128
+x0	0
+x1	255
+input	datasets/SIMPLE_VORONOI_2048x2048_1.png
+height	2048
+gradient	RAINBOW
+
+
+Load Store Summary:
+Field load:    6041276
+Field store:   10218228
+Regular load:  57657363
+Regular store: 582870
