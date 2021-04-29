@@ -38,14 +38,14 @@ public class DynICount {
 
                     for (Enumeration b = routine.getBasicBlocks().elements(); b.hasMoreElements(); ) {
                         BasicBlock bb = (BasicBlock) b.nextElement();
-                        bb.addBefore("BIT/DynICount", "dynInstrCount", new Integer(bb.size()));
-                        //bb.addBefore("pt/ulisboa/tecnico/cnv/server/WebServer", "count", new Integer(bb.size()));
+                        //bb.addBefore("BIT/DynICount", "dynInstrCount", new Integer(bb.size()));
+                        bb.addBefore("pt/ulisboa/tecnico/cnv/server/WebServer", "count", new Integer(bb.size()));
                     }
 
                     // Up until the completion of the solveImage method resides the predominant cost of the request
                     if (routine.getMethodName().equals("solveImage")) {
-                        //routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
-                        routine.addAfter("BIT/DynICount", "printDynamic", "foo");
+                        routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
+                        //routine.addAfter("BIT/DynICount", "printDynamic", "foo");
                     }
                 }
                 ci.write(argv[1] + System.getProperty("file.separator") + infilename);
