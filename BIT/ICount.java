@@ -31,18 +31,17 @@ public class ICount {
 
         for (int i = 0; i < infilenames.length; i++) {
             String infilename = infilenames[i];
-            if (infilename.endsWith("Solver.class") || infilename.equals("SolverArgumentParser.class") || infilename    .equals("Solver$Viewport.class") || infilename.equals("SolverArgumentParser$SolverParameters.class") || infilename.equals("SolverMain.class")) {
-                // create class info object
+            if (infilename.endsWith(".class")) {
                 ClassInfo ci = new ClassInfo(argv[0] + System.getProperty("file.separator") + infilename);
 
-                // loop through all the routines
-                // see java.util.Enumeration for more information on Enumeration class
                 for (Enumeration e = ci.getRoutines().elements(); e.hasMoreElements(); ) {
                     Routine routine = (Routine) e.nextElement();
-                    routine.addBefore("pt/ulisboa/tecnico/cnv/server/WebServer", "count", new Integer(routine.getInstructionCount()));
+                    //routine.addBefore("pt/ulisboa/tecnico/cnv/server/WebServer", "count", new Integer(routine.getInstructionCount()));
+                    routine.addBefore("BIT/ICount", "count", new Integer(routine.getInstructionCount()));
 
                     if (routine.getMethodName().equals("solveImage")) {
-                        routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
+                        //routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
+                        routine.addAfter("BIT/ICount", "printICount", "foo");
                     }
                 }
                 ci.write(argv[1] + System.getProperty("file.separator") + infilename);

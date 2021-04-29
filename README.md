@@ -30,7 +30,7 @@ When the steps above are completed create an image.
 1. Classic Load Balancer
 2. Enable VPC configuration with existing security group, port 80 open
 3. HTTP 80 -> HTTP 8000
-4. Basic Health Check with ping path /test,
+4. Basic Health Check with ping path /healthcheck,
     * 30 seconds interval
     * 60 seconds period
     * 5 Unhealthy threshold

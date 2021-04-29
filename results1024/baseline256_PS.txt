@@ -15,5 +15,3 @@ height	1024
 gradient	RAINBOW
 
 
-Dynamic information summary:
-Number of instructions: 64162144

@@ -43,11 +43,11 @@ public class DynICount {
                     }
 
                     // Up until the completion of the solveImage method resides the predominant cost of the request
-/*                    if (routine.getMethodName().equals("solveImage")) {
-                        routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
-                    }*/
+                    if (routine.getMethodName().equals("solveImage")) {
+                        //routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
+                        routine.addAfter("BIT/DynICount", "printDynamic", "foo");
+                    }
                 }
-                ci.addAfter("BIT/DynICount", "printDynamic", ci.getClassName());
                 ci.write(argv[1] + System.getProperty("file.separator") + infilename);
             }
         }
