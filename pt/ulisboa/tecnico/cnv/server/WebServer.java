@@ -49,7 +49,8 @@ public class WebServer {
 
 		final HttpServer server = HttpServer.create(new InetSocketAddress(WebServer.sap.getServerAddress(), WebServer.sap.getServerPort()), 0);
 
-		server.createContext("/scan", new MyHandler());
+		server.createContext("/scan", new MyScanHandler());
+		server.createContext("/healthcheck", new MyHealthCheckHandler());
 
 		// be aware! infinite pool of threads!
 		server.setExecutor(Executors.newCachedThreadPool());
@@ -86,7 +87,7 @@ public class WebServer {
 		met.setNumberInstructions(met.getNumberInstructions() + incr);
 	}
 
-	static class MyHandler implements HttpHandler {
+	static class MyScanHandler implements HttpHandler {
 		@Override
 		public void handle(final HttpExchange t) throws IOException {
 
@@ -187,7 +188,7 @@ public class WebServer {
 			hdrs.add("Access-Control-Allow-Credentials", "true");
 			hdrs.add("Access-Control-Allow-Methods", "POST, GET, HEAD, OPTIONS");
 			hdrs.add("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-			
+
 			t.sendResponseHeaders(200, responseFile.length());
 
 			final OutputStream os = t.getResponseBody();
@@ -200,6 +201,20 @@ public class WebServer {
 		}
 	}
 
+	static class MyHealthCheckHandler implements HttpHandler {
+		@Override
+		public void handle(final HttpExchange t) throws IOException {
 
+			String response = "I'm available\n";
 
+			t.sendResponseHeaders(200, response.length());
+			OutputStream os = t.getResponseBody();
+
+			os.write(response.getBytes());
+
+			os.close();
+
+			System.out.println("> Sent response to " + t.getRemoteAddress().toString());
+		}
+	}
 }
