@@ -1,18 +1,4 @@
-> [AbstractArgumentParser]: set2048
-2048
-2048
-2048
-2048
-2048
-2048
-2048
-2048
-2048
-2048
-2048
-2048
-2048
-2048upCLIOptions() DONE.
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
 width	512
 y0	0
 yS	256

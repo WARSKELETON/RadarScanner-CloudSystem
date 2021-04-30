@@ -30,10 +30,10 @@ When the steps above are completed create an image.
 1. Classic Load Balancer
 2. Enable VPC configuration with existing security group, port 80 open
 3. HTTP 80 -> HTTP 8000
-4. Basic Health Check with ping path /healthcheck,
-    * 30 seconds interval
-    * 60 seconds period
-    * 5 Unhealthy threshold
+4. Basic Health Check with ping path /healthcheck on port 8000,
+    * 5 seconds interval
+    * 30 seconds period
+    * 2 Unhealthy threshold
     * 10 Healthy threshold
 
 ## Launch Configuration - AWS Configuration
@@ -51,7 +51,7 @@ When the steps above are completed create an image.
 4. Attach to the previously created load balancer
 5. ELB Health Check with 60 seconds grace period
 6. Enable group metrics collection withing CloudWatch
-7. Desired capactiy -> 1 | Minimum capactiy -> 1 | Maximum capactiy -> 2
+7. Desired capactiy -> 10 | Minimum capactiy -> 10 | Maximum capactiy -> 20
 8. No scaling policy
 
 ## CloudWatch Alarms - AWS Configuration
@@ -59,9 +59,9 @@ When the steps above are completed create an image.
 1. CPUUtilization for AutoScalingGroup
 2. Statistic Average
 3. Period 1 minute
-4. Threshold Greater than 50%
+4. Threshold Greater than 75%
 5. No notifications
-6. cpu-greater-than-50 -> alarm name
+6. cpu-greater-than-75 -> alarm name
 
 Repeat the previous steps for lower than 25%
 
@@ -69,8 +69,14 @@ Repeat the previous steps for lower than 25%
 
 For each alarm created previously, associate it with the autoscaling group:
 
-* Increase group size by 1 whenever the above metric surpasses 50%
+* Increase group size by 1 whenever the above metric surpasses 75%
 * Decrease group size by 1 whenever the above metric falls bellow 25%
+
+## Quick Benchmark Test
+
+```shell
+ab -n 1070 -c 10 "load-balancer-dns-name:80/scan?w=1024&h=1024&x0=256&x1=768&y0=256&y1=768&xS=512&yS=512&s=PROGRESSIVE_SCAN&i=SIMPLE_VORONOI_1024x1024_1.png" 
+```
 
 ----
 ## Authors
