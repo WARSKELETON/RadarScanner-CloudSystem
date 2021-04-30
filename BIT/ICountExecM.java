@@ -1,4 +1,4 @@
-/* ICount.java
+/* ICountExecM.java
  * Sample program using BIT -- counts the number of instructions executed.
  *
  * Copyright (c) 1997, The Regents of the University of Colorado. All
@@ -18,7 +18,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class ICount {
+public class ICountExecM {
     private static PrintStream out = null;
     private static int i_count = 0;
 
@@ -37,11 +37,11 @@ public class ICount {
                 for (Enumeration e = ci.getRoutines().elements(); e.hasMoreElements(); ) {
                     Routine routine = (Routine) e.nextElement();
                     //routine.addBefore("pt/ulisboa/tecnico/cnv/server/WebServer", "count", new Integer(routine.getInstructionCount()));
-                    routine.addBefore("BIT/ICount", "count", new Integer(routine.getInstructionCount()));
+                    routine.addBefore("BIT/ICountExecM", "count", new Integer(routine.getInstructionCount()));
 
                     if (routine.getMethodName().equals("solveImage")) {
                         //routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
-                        routine.addAfter("BIT/ICount", "printICount", "foo");
+                        routine.addAfter("BIT/ICountExecM", "printICount", "foo");
                     }
                 }
                 ci.write(argv[1] + System.getProperty("file.separator") + infilename);

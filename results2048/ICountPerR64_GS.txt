@@ -1,0 +1,18 @@
+> [AbstractArgumentParser]: setupCLIOptions() DONE.
+width	2048
+y0	0
+yS	32
+output-directory	/tmp
+y1	63
+strategy	GRID_SCAN
+paint_color	java.awt.Color[r=0,g=160,b=230]
+debug	true
+xS	32
+x0	0
+x1	63
+input	datasets/SIMPLE_VORONOI_2048x2048_1.png
+height	2048
+gradient	RAINBOW
+
+
+83176915 instructions

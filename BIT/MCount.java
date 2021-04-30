@@ -4,7 +4,7 @@ import BIT.highBIT.*;
 import java.io.*;
 import java.util.*;
 
-public class DynMCount {
+public class MCount {
     private static PrintStream out = null;
     private static int m_count = 0;
 
@@ -25,10 +25,10 @@ public class DynMCount {
                 // see java.util.Enumeration for more information on Enumeration class
                 for (Enumeration e = ci.getRoutines().elements(); e.hasMoreElements(); ) {
                     Routine routine = (Routine) e.nextElement();
-                    routine.addBefore("BIT/DynMCount", "mcount", new Integer(1));
+                    routine.addBefore("BIT/MCount", "mcount", new Integer(1));
                 }
 
-                ci.addAfter("BIT/DynMCount", "printMCount", ci.getClassName());
+                ci.addAfter("BIT/MCount", "printMCount", ci.getClassName());
                 ci.write(argv[1] + System.getProperty("file.separator") + infilename);
             }
         }

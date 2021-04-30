@@ -1,4 +1,4 @@
-/* ICount.java
+/* ICountExecM.java
  * Sample program using BIT -- counts the number of instructions executed.
  *
  * Copyright (c) 1997, The Regents of the University of Colorado. All
@@ -17,10 +17,13 @@ import BIT.highBIT.*;
 import java.io.*;
 import java.util.*;
 
-public class DynICount {
+public class ICountPerM {
     private static PrintStream out = null;
-    private static long i_count = 0;
+    private static int i_count = 0;
 
+    /* main reads in all the files class files present in the input directory,
+     * instruments them, and outputs them to the specified output directory.
+     */
     public static void main(String argv[]) {
         File file_in = new File(argv[0]);
         String infilenames[] = file_in.list();
@@ -28,24 +31,21 @@ public class DynICount {
         for (int i = 0; i < infilenames.length; i++) {
             String infilename = infilenames[i];
             if (infilename.endsWith(".class")) {
-                // create class info object
                 ClassInfo ci = new ClassInfo(argv[0] + System.getProperty("file.separator") + infilename);
 
-                // loop through all the routines
-                // see java.util.Enumeration for more information on Enumeration class
                 for (Enumeration e = ci.getRoutines().elements(); e.hasMoreElements(); ) {
                     Routine routine = (Routine) e.nextElement();
 
-                    for (Enumeration b = routine.getBasicBlocks().elements(); b.hasMoreElements(); ) {
-                        BasicBlock bb = (BasicBlock) b.nextElement();
-                        bb.addBefore("BIT/DynICount", "dynInstrCount", new Integer(bb.size()));
-                        //bb.addBefore("pt/ulisboa/tecnico/cnv/server/WebServer", "count", new Integer(bb.size()));
+                    for (Enumeration ie = routine.getInstructionArray().elements(); ie.hasMoreElements(); ) {
+                        Instruction instr = (Instruction) ie.nextElement();
+
+                        //routine.addBefore("pt/ulisboa/tecnico/cnv/server/WebServer", "count", new Integer(routine.getInstructionCount()));
+                        instr.addBefore("BIT/ICountPerM", "count", new Integer(1));
                     }
 
-                    // Up until the completion of the solveImage method resides the predominant cost of the request
                     if (routine.getMethodName().equals("solveImage")) {
                         //routine.addAfter("pt/ulisboa/tecnico/cnv/server/WebServer", "printThreadIcount", 0);
-                        routine.addAfter("BIT/DynICount", "printDynamic", "foo");
+                        routine.addAfter("BIT/ICountPerM", "printICount", "foo");
                     }
                 }
                 ci.write(argv[1] + System.getProperty("file.separator") + infilename);
@@ -53,12 +53,11 @@ public class DynICount {
         }
     }
 
-    public static synchronized void dynInstrCount(int incr) {
-        i_count += incr;
+    public static synchronized void printICount(String foo) {
+        System.out.println(i_count + " instructions");
     }
 
-    public static synchronized void printDynamic(String foo) {
-        System.out.println("Dynamic information summary:");
-        System.out.println("Number of instructions: " + i_count);
+    public static synchronized void count(int incr) {
+        i_count += incr;
     }
 }
