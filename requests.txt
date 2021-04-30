@@ -1,0 +1,19 @@
+Current thread with id 12 
+Request{
+width=512,
+height=512,
+viewportTopLeftX=124,
+viewportTopLeftY=26,
+viewportBottomRightX=380,
+viewportBottomRightY=282,
+startingPointX=257,
+startingPointY=129,
+strategy='GREEDY_RANGE_SCAN',
+image='datasets/SIMPLE_VORONOI_512x512_3.png',
+metrics=Metrics{
+numberInstructions=9890644,
+basicBlocks=0,
+depthStack=0,
+callsFunctions=0}
+}
+
