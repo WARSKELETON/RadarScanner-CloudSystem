@@ -26,13 +26,19 @@ import pt.ulisboa.tecnico.cnv.solver.SolverFactory;
 
 import javax.imageio.ImageIO;
 
+import pt.ulisboa.tecnico.cnv.dynamodb.DynamoDBService;
+
 public class WebServer {
 
 	static ServerArgumentParser sap = null;
 	private static Map<Long, Request> requests = new ConcurrentHashMap<>();
 	private static String metricsFilename = "requests.txt";
+	private static DynamoDBService dynamoDBService;
 
 	public static void main(final String[] args) throws Exception {
+
+		dynamoDBService = new DynamoDBService();
+		dynamoDBService.init();
 
 		try {
 			// Get user-provided flags.
@@ -66,6 +72,8 @@ public class WebServer {
 		Metrics currentMetrics = currentRequest.getMetrics();
 		long currentCount = requests.get(threadId).getMetrics().getNumberInstructions();
 
+		if (currentMetrics.isComplete()) return;
+
 		try {
 			String str = "Current thread with id " + threadId + " " + currentRequest.toString() + "\n";
 			FileOutputStream outputStream = new FileOutputStream(metricsFilename, true);
@@ -73,6 +81,8 @@ public class WebServer {
 			outputStream.write(strToBytes);
 			outputStream.close();
 			currentMetrics.setComplete(true);
+
+			dynamoDBService.saveRequest(currentRequest);
 		} catch (IOException exception) {
 			System.err.println("Caught IOException when writing to file");
 		}

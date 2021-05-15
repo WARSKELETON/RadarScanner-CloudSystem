@@ -1,7 +1,11 @@
 package pt.ulisboa.tecnico.cnv.dynamodb;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+
+import pt.ulisboa.tecnico.cnv.server.Request;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
@@ -34,9 +38,9 @@ public class DynamoDBService {
 
     static AmazonDynamoDB dynamoDB;
     public static String tableName = "scan-requests-table";
-    private DynamoDBMapper mapper;
+    private static DynamoDBMapper mapper;
 
-    private static void init() throws Exception {
+    public static void init() throws Exception {
         ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
         try {
             credentialsProvider.getCredentials();

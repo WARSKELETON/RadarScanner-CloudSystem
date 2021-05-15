@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cnv.server;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 @DynamoDBTable(tableName = "scan-requests-table")
@@ -57,7 +58,7 @@ public class Request {
                     //should not reach here
             }
         }
-        this.id = buildRequestId(args);
+        buildRequestId(args);
         this.metrics = new Metrics();
     }
 
@@ -107,6 +108,7 @@ public class Request {
     @DynamoDBAttribute(attributeName = "image")
     public String getImage() { return image; }
 
+    @DynamoDBIgnore
     public Metrics getMetrics() { return metrics; }
 
     public void setId(String id) {
