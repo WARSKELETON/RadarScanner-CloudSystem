@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cnv.dynamodb;
+package pt.ulisboa.tecnico.cnv.mss;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 
-public class DynamoDBService {
+public class MSS {
 
     static AmazonDynamoDB dynamoDB;
     public static String tableName = "scan-requests-table";

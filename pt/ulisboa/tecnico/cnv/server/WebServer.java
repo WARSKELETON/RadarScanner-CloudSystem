@@ -26,19 +26,19 @@ import pt.ulisboa.tecnico.cnv.solver.SolverFactory;
 
 import javax.imageio.ImageIO;
 
-import pt.ulisboa.tecnico.cnv.dynamodb.DynamoDBService;
+import pt.ulisboa.tecnico.cnv.mss.MSS;
 
 public class WebServer {
 
 	static ServerArgumentParser sap = null;
 	private static Map<Long, Request> requests = new ConcurrentHashMap<>();
 	private static String metricsFilename = "requests.txt";
-	private static DynamoDBService dynamoDBService;
+	private static MSS mss;
 
 	public static void main(final String[] args) throws Exception {
 
-		dynamoDBService = new DynamoDBService();
-		dynamoDBService.init();
+		mss = new MSS();
+		mss.init();
 
 		try {
 			// Get user-provided flags.
@@ -82,7 +82,7 @@ public class WebServer {
 			outputStream.close();
 			currentMetrics.setComplete(true);
 
-			dynamoDBService.saveRequest(currentRequest);
+			mss.saveRequest(currentRequest);
 		} catch (IOException exception) {
 			System.err.println("Caught IOException when writing to file");
 		}
