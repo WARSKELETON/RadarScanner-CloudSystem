@@ -69,10 +69,9 @@ public class WebServer {
 		long threadId = Thread.currentThread().getId();
 		System.out.println("Thread with id " + threadId + " printing instruction count metrics to file");
 		Request currentRequest = requests.get(threadId);
-		Metrics currentMetrics = currentRequest.getMetrics();
-		long currentCount = requests.get(threadId).getMetrics().getNumberInstructions();
+		long currentCount = currentRequest.getNumberInstructions();
 
-		if (currentMetrics.isComplete()) return;
+		if (currentRequest.isComplete()) return;
 
 		try {
 			String str = "Current thread with id " + threadId + " " + currentRequest.toString() + "\n";
@@ -80,7 +79,7 @@ public class WebServer {
 			byte[] strToBytes = str.getBytes();
 			outputStream.write(strToBytes);
 			outputStream.close();
-			currentMetrics.setComplete(true);
+			currentRequest.setComplete(true);
 
 			mss.saveRequest(currentRequest);
 		} catch (IOException exception) {
@@ -90,11 +89,11 @@ public class WebServer {
 
 	public static void count(int incr) {
 		long threadId = Thread.currentThread().getId();
-		Metrics met = requests.get(threadId).getMetrics();
+		Request currentRequest = requests.get(threadId);
 
-		if (met.isComplete()) return;
+		if (currentRequest.isComplete()) return;
 
-		met.setNumberInstructions(met.getNumberInstructions() + incr);
+		currentRequest.setNumberInstructions(currentRequest.getNumberInstructions() + incr);
 	}
 
 	static class MyScanHandler implements HttpHandler {
@@ -149,7 +148,7 @@ public class WebServer {
 				System.out.println("ar: " + ar);
 			} */
 
-			requests.put(Thread.currentThread().getId(), new Request(args));
+			requests.put(Thread.currentThread().getId(), new Request(query, args));
 
 			// Create solver instance from factory.
 			final Solver s = SolverFactory.getInstance().makeSolver(args);

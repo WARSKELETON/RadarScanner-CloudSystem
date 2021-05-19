@@ -110,3 +110,6 @@ metrics=Metrics{
 numberInstructions=10759575}
 }
 
+Current thread with id 13 Request{id='-w512-h512-x0128-x1384-y0128-y1384-xS252-yS256-sPROGRESSIVE_SCAN-idatasets/SIMPLE_VORONOI_512x512_1.png', width=512, height=512, viewportTopLeftX=128, viewportTopLeftY=128, viewportBottomRightX=384, viewportBottomRightY=384, startingPointX=252, startingPointY=256, strategy='PROGRESSIVE_SCAN', image='datasets/SIMPLE_VORONOI_512x512_1.png', numberInstructions=12811181, isComplete=false}
+Current thread with id 13 Request{id='w=512&h=512&x0=128&x1=384&y0=128&y1=384&xS=252&yS=256&s=GRID_SCAN&i=SIMPLE_VORONOI_512x512_1.png', width=512, height=512, viewportTopLeftX=128, viewportTopLeftY=128, viewportBottomRightX=384, viewportBottomRightY=384, startingPointX=252, startingPointY=256, strategy='GRID_SCAN', image='datasets/SIMPLE_VORONOI_512x512_1.png', numberInstructions=282614873, isComplete=false}
+Current thread with id 13 Request{id='w=512&h=512&x0=128&x1=384&y0=128&y1=384&xS=252&yS=256&s=GRID_SCAN&i=SIMPLE_VORONOI_512x512_1.png', width=512, height=512, viewportTopLeftX=128, viewportTopLeftY=128, viewportBottomRightX=384, viewportBottomRightY=384, startingPointX=252, startingPointY=256, strategy='GRID_SCAN', image='datasets/SIMPLE_VORONOI_512x512_1.png', numberInstructions=282614581, isComplete=false}

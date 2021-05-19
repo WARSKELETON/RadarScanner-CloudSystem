@@ -92,9 +92,13 @@ public class MSS {
         }
     }
 
-    public static List<Request> getRequestById(Request request) {
+    public static List<Request> getRequestById(String query) {
+        Request partitionKey = new Request();
+
+        partitionKey.setId(query);
         DynamoDBQueryExpression<Request> queryExpression = new DynamoDBQueryExpression<Request>()
-                .withHashKeyValues(request);
+            .withHashKeyValues(partitionKey);
+        
         return mapper.query(Request.class, queryExpression);
     }
 

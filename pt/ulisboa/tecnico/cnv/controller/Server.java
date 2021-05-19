@@ -34,6 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -92,6 +93,7 @@ public class Server {
         loadBalancer = new LoadBalancer();
         //this.autoScaler = new AutoScaler();
         mss = new MSS();
+        mss.init();
 
         while(true) {
         }
@@ -123,5 +125,15 @@ public class Server {
         }
 
         return laziestWorkerNode;
+    }
+
+    public static Request getWorkloadEstimate(String query) {
+        List<Request> requests = mss.getRequestById(query);
+
+        if (!requests.isEmpty()) {
+            return requests.get(0);
+        } else {
+            return null;
+        }
     }
 }

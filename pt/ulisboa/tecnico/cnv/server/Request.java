@@ -19,9 +19,13 @@ public class Request {
     private int startingPointY;
     private String strategy;
     private String image;
-    private final Metrics metrics;
+    private long numberInstructions;
+    private boolean isComplete;
 
-    public Request(String[] args){
+    public Request(){
+    }
+
+    public Request(String query, String[] args){
         for (int i = 0; i < args.length; i += 2){
             switch (args[i]){
                 case "-w":
@@ -58,17 +62,9 @@ public class Request {
                     //should not reach here
             }
         }
-        buildRequestId(args);
-        this.metrics = new Metrics();
-    }
-
-    public void buildRequestId(String[] args) {
-        StringBuilder builder = new StringBuilder();
-        for (String string : args) {
-            builder.append(string);
-        }
-        this.setId(builder.toString());
-        System.out.println("Request ID: " + id);
+        this.id = query;
+        this.numberInstructions = 0;
+        this.isComplete = false;
     }
 
     //Getters
@@ -108,8 +104,15 @@ public class Request {
     @DynamoDBAttribute(attributeName = "image")
     public String getImage() { return image; }
 
+    @DynamoDBAttribute(attributeName = "numberInstructions")
+    public long getNumberInstructions() {
+        return numberInstructions;
+    }
+
     @DynamoDBIgnore
-    public Metrics getMetrics() { return metrics; }
+    public boolean isComplete() {
+        return isComplete;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -155,20 +158,30 @@ public class Request {
         this.image = image;
     }
 
+    public void setNumberInstructions(long numberInstructions) {
+        this.numberInstructions = numberInstructions;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
+    }
+
     @Override
     public String toString() {
-        return "\nRequest{" +
-                "\nwidth=" + width +
-                ",\nheight=" + height +
-                ",\nviewportTopLeftX=" + viewportTopLeftX +
-                ",\nviewportTopLeftY=" + viewportTopLeftY +
-                ",\nviewportBottomRightX=" + viewportBottomRightX +
-                ",\nviewportBottomRightY=" + viewportBottomRightY +
-                ",\nstartingPointX=" + startingPointX +
-                ",\nstartingPointY=" + startingPointY +
-                ",\nstrategy='" + strategy + '\'' +
-                ",\nimage='" + image + '\'' +
-                ",\nmetrics=" + metrics +
-                "}\n";
+        return "Request{" +
+                "id='" + id + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", viewportTopLeftX=" + viewportTopLeftX +
+                ", viewportTopLeftY=" + viewportTopLeftY +
+                ", viewportBottomRightX=" + viewportBottomRightX +
+                ", viewportBottomRightY=" + viewportBottomRightY +
+                ", startingPointX=" + startingPointX +
+                ", startingPointY=" + startingPointY +
+                ", strategy='" + strategy + '\'' +
+                ", image='" + image + '\'' +
+                ", numberInstructions=" + numberInstructions +
+                ", isComplete=" + isComplete +
+                '}';
     }
 }

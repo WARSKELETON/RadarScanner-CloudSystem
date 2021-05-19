@@ -72,10 +72,10 @@ public class LoadBalancer {
             System.out.println("> Query:\t" + query);
 
             // Estimate request cost
-            final String[] params = query.split("&");
+            Request request = Server.getWorkloadEstimate(query);
 
-            for(String p: params) {
-                System.out.println(p);
+            if (request != null) {
+                System.out.println("Request received has " + request.getNumberInstructions() + " number of instructions");
             }
 
             String queryUrlString = "http://" + workerIp + ":8000/scan?" + query;
