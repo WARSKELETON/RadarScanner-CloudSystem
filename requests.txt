@@ -46,3 +46,67 @@ metrics=Metrics{
 numberInstructions=41634313}
 }
 
+Current thread with id 13 
+Request{
+width=512,
+height=512,
+viewportTopLeftX=128,
+viewportTopLeftY=128,
+viewportBottomRightX=384,
+viewportBottomRightY=384,
+startingPointX=256,
+startingPointY=256,
+strategy='GREEDY_RANGE_SCAN',
+image='datasets/SIMPLE_VORONOI_512x512_1.png',
+metrics=Metrics{
+numberInstructions=11064190}
+}
+
+Current thread with id 13 
+Request{
+width=512,
+height=512,
+viewportTopLeftX=128,
+viewportTopLeftY=128,
+viewportBottomRightX=384,
+viewportBottomRightY=384,
+startingPointX=256,
+startingPointY=256,
+strategy='PROGRESSIVE_SCAN',
+image='datasets/SIMPLE_VORONOI_512x512_1.png',
+metrics=Metrics{
+numberInstructions=12811181}
+}
+
+Current thread with id 16 
+Request{
+width=512,
+height=512,
+viewportTopLeftX=128,
+viewportTopLeftY=128,
+viewportBottomRightX=384,
+viewportBottomRightY=384,
+startingPointX=256,
+startingPointY=256,
+strategy='GRID_SCAN',
+image='datasets/SIMPLE_VORONOI_512x512_1.png',
+metrics=Metrics{
+numberInstructions=276878877}
+}
+
+Current thread with id 17 
+Request{
+width=512,
+height=512,
+viewportTopLeftX=128,
+viewportTopLeftY=128,
+viewportBottomRightX=384,
+viewportBottomRightY=384,
+startingPointX=252,
+startingPointY=256,
+strategy='GREEDY_RANGE_SCAN',
+image='datasets/SIMPLE_VORONOI_512x512_1.png',
+metrics=Metrics{
+numberInstructions=10759575}
+}
+

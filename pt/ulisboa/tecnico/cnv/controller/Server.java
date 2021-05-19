@@ -67,6 +67,7 @@ public class Server {
     //private AutoScaler autoScaler;
     private static MSS mss;
 
+    private static final Object workerLock = new Object();
     private static Map<String, WorkerNode> workers = new ConcurrentHashMap<>();
 
     private static void initAWSClient() throws Exception {
@@ -86,11 +87,14 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         initAWSClient();
-        createInstances(2);
+        //createInstances(2);
 
         loadBalancer = new LoadBalancer();
         //this.autoScaler = new AutoScaler();
         mss = new MSS();
+
+        while(true) {
+        }
     }
 
     public static void createInstances(int numberOfInstances) {
@@ -105,5 +109,19 @@ public class Server {
         RunInstancesResult runInstancesResult = ec2.runInstances(runInstancesRequest);
 
         System.out.println("Instance launching...");
+    }
+
+    public static WorkerNode getLaziestWorkerNode() {
+        WorkerNode laziestWorkerNode = null;
+
+        synchronized (workerLock) {
+            for (WorkerNode worker : workers.values()) {
+                if (laziestWorkerNode == null || worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload()) {
+                    laziestWorkerNode = worker;
+                }
+            }
+        }
+
+        return laziestWorkerNode;
     }
 }

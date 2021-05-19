@@ -49,4 +49,12 @@ public class WorkerNode {
     public void setCurrentCPU (int currentCPU) {
         this.currentCPU = currentCPU;
     }
+
+    public Instance getInstance() {
+        return instance;
+    }
+
+    public void setInstance(Instance instance) {
+        this.instance = instance;
+    }
 }
