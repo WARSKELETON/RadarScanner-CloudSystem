@@ -38,13 +38,13 @@ public class LoadBalancer {
 
     public static final int REQUEST_TIMEOUT = 300000;
     public static final int MAX_REQUESTS = 3;
-    private static final String LOCAL_IP = "192.168.56.10";
+    private static final String LOCAL_IP = "0.0.0.0";
 
     public LoadBalancer() {
         HttpServer server = null;
         try {    
-            server = HttpServer.create(new InetSocketAddress(80), 0);
-            //server = HttpServer.create(new InetSocketAddress(LOCAL_IP, 8080), 0);
+            //server = HttpServer.create(new InetSocketAddress(80), 0);
+            server = HttpServer.create(new InetSocketAddress(LOCAL_IP, 80), 0);
         } catch (Exception e) {
             System.err.println("Failed to launch load balancer " + e.getMessage());
         }
