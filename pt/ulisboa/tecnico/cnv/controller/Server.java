@@ -58,7 +58,7 @@ import pt.ulisboa.tecnico.cnv.mss.MSS;
 public class Server {
 
     private static LoadBalancer loadBalancer;
-    private AutoScaler autoScaler;
+    private static AutoScaler autoScaler;
     private static MSS mss;
 
     private static final Object workerLock = new Object();
@@ -93,6 +93,10 @@ public class Server {
     public static void addWorkerNode(Instance instance) {
         workers.put(instance.getInstanceId(), new WorkerNode(instance));
         System.out.println("Added worker node with ID " + instance.getInstanceId());
+    }
+
+    public static int getNumberOfWorkerNodes() {
+        return workers.values().size();
     }
 
     public static Request getWorkloadEstimate(Request request) {

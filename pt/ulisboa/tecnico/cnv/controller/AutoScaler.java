@@ -1,4 +1,4 @@
-package ulisboa.tecnico.cnv.controller;
+package pt.ulisboa.tecnico.cnv.controller;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
@@ -23,6 +23,8 @@ import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
 import com.amazonaws.util.EC2MetadataUtils;
 
+import java.util.List;
+import java.util.Set;
 import java.util.HashSet;
 
 public class AutoScaler {
@@ -42,9 +44,13 @@ public class AutoScaler {
     private AmazonCloudWatch cloudWatch;
 
     public AutoScaler() {
-        initAWSClient();
-        this.instanceId = EC2MetadataUtils.getInstanceId();
-        initWorkerNodes();
+        try {
+            initAWSClient();
+            this.myInstanceId = EC2MetadataUtils.getInstanceId();
+            initWorkerNodes();
+        } catch (Exception e) {
+            System.err.println("Caught exception");
+        }
     }
 
     private void initAWSClient() throws Exception {
@@ -115,10 +121,14 @@ public class AutoScaler {
         boolean done = false;
         while(!done) {
 
-            Thread.sleep(GRACE_PERIOD);
+            try {
+                Thread.sleep(GRACE_PERIOD);
+            } catch (InterruptedException e) {
+                System.err.println("Caught Exception");
+            }
 
             // Request AWS for all instances states
-            DescribeInstancesResult describeInstancesRequest = Manager.ec2.describeInstances();
+            DescribeInstancesResult describeInstancesRequest = ec2.describeInstances();
             List<Reservation> reservations = describeInstancesRequest.getReservations();
 
             for (Reservation reservation : reservations) {
