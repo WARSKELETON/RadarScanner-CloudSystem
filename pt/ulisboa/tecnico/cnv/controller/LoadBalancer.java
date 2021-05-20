@@ -43,8 +43,8 @@ public class LoadBalancer {
     public LoadBalancer() {
         HttpServer server = null;
         try {    
-            //final HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);
-            server = HttpServer.create(new InetSocketAddress(LOCAL_IP, 8080), 0);
+            server = HttpServer.create(new InetSocketAddress(80), 0);
+            //server = HttpServer.create(new InetSocketAddress(LOCAL_IP, 8080), 0);
         } catch (Exception e) {
             System.err.println("Failed to launch load balancer " + e.getMessage());
         }
@@ -65,9 +65,9 @@ public class LoadBalancer {
             int failedRequests = 0;
 
             final String query = t.getRequestURI().getQuery();
-            //WorkerNode worker = server.getLaziestWorkerNode();
-            //String workerIp = worker.getInstance().getPublicIpAddress();
-            String workerIp = LOCAL_IP;
+            WorkerNode worker = Server.getLaziestWorkerNode();
+            String workerIp = worker.getInstance().getPublicIpAddress();
+            //String workerIp = LOCAL_IP;
 
             System.out.println("> Query:\t" + query);
 
@@ -88,7 +88,7 @@ public class LoadBalancer {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setConnectTimeout(REQUEST_TIMEOUT);
-                    System.out.println("Load Balancer forwarding scan request to " + workerIp);
+                    System.out.println("Load Balancer forwarding scan request to worker node with IP address " + workerIp);
 
                     int status = connection.getResponseCode();
                     if (status == HttpURLConnection.HTTP_OK) {

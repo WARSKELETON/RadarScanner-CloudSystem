@@ -85,11 +85,14 @@ public class Server {
             }
         }
 
+        System.out.println("Found laziest worker node with ID " + laziestWorkerNode.getInstance().getInstanceId());
+
         return laziestWorkerNode;
     }
 
     public static void addWorkerNode(Instance instance) {
         workers.put(instance.getInstanceId(), new WorkerNode(instance));
+        System.out.println("Added worker node with ID " + instance.getInstanceId());
     }
 
     public static Request getWorkloadEstimate(Request request) {

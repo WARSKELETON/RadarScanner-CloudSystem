@@ -23,8 +23,11 @@ import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
 import com.amazonaws.util.EC2MetadataUtils;
 
+import java.util.HashSet;
+
 public class AutoScaler {
 
+    public final int GRACE_PERIOD = 60000;
     public final int DESIRED_CAPACITY = 1;
     public final int MIN_CAPACITY = 1;
     public final int MAX_CAPACITY = 2;
@@ -101,8 +104,39 @@ public class AutoScaler {
                 .withSecurityGroups(SECURITY_GROUP);
 
         RunInstancesResult runInstancesResult = ec2.runInstances(runInstancesRequest);
+        List<Instance> newWorkers = runInstancesResult.getReservation().getInstances();
+        Set<String> workersIds = new HashSet<>();
+        for (Instance instance : newWorkers) {
+            workersIds.add(instance.getInstanceId());
+        }
 
         System.out.println("Instance launching...");
+
+        boolean done = false;
+        while(!done) {
+
+            Thread.sleep(GRACE_PERIOD);
+
+            // Request AWS for all instances states
+            DescribeInstancesResult describeInstancesRequest = Manager.ec2.describeInstances();
+            List<Reservation> reservations = describeInstancesRequest.getReservations();
+
+            for (Reservation reservation : reservations) {
+                for (Instance instance : reservation.getInstances()) {
+                    // If it's not a new instance ignore
+                    if (!workersIds.contains(instance.getInstanceId())) continue;
+
+                    if (instance.getState().getName().equals("running")) {
+                        done = true;
+                        Server.addWorkerNode(instance);
+                        System.out.println("New worker node with ID " + instance.getInstanceId() + " ready.");
+                    } else {
+                        done = false;
+                        System.out.println("New worker node with ID " + instance.getInstanceId() + " has state " + instance.getState().getName() + ".");
+                    }
+                }
+            }
+        }
     }
 
     public void terminateWorkerNodes(int numberOfRequiredWorkers) {
