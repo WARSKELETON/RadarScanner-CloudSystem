@@ -44,7 +44,7 @@ public class LoadBalancer {
         HttpServer server = null;
         try {    
             //server = HttpServer.create(new InetSocketAddress(80), 0);
-            server = HttpServer.create(new InetSocketAddress(LOCAL_IP, 80), 0);
+            server = HttpServer.create(new InetSocketAddress(LOCAL_IP, 8000), 0);
         } catch (Exception e) {
             System.err.println("Failed to launch load balancer " + e.getMessage());
         }
