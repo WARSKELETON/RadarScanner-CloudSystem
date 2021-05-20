@@ -148,7 +148,7 @@ public class WebServer {
 				System.out.println("ar: " + ar);
 			} */
 
-			requests.put(Thread.currentThread().getId(), new Request(query, args));
+			requests.put(Thread.currentThread().getId(), new Request(query, params));
 
 			// Create solver instance from factory.
 			final Solver s = SolverFactory.getInstance().makeSolver(args);

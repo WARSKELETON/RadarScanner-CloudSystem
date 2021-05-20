@@ -15,6 +15,7 @@ public class Request {
     private int viewportTopLeftY;
     private int viewportBottomRightX;
     private int viewportBottomRightY;
+    private int viewportArea;
     private int startingPointX;
     private int startingPointY;
     private String strategy;
@@ -26,37 +27,38 @@ public class Request {
     }
 
     public Request(String query, String[] args){
-        for (int i = 0; i < args.length; i += 2){
-            switch (args[i]){
-                case "-w":
-                    this.width = Integer.parseInt(args[i+1]);
+        for (int i = 0; i < args.length; i++){
+            final String[] params = args[i].split("=");
+            switch (params[0]){
+                case "w":
+                    this.width = Integer.parseInt(params[1]);
                     break;
-                case "-h":
-                    this.height = Integer.parseInt(args[i+1]);
+                case "h":
+                    this.height = Integer.parseInt(params[1]);
                     break;
-                case "-x0":
-                    this.viewportTopLeftX = Integer.parseInt(args[i+1]);
+                case "x0":
+                    this.viewportTopLeftX = Integer.parseInt(params[1]);
                     break;
-                case "-x1":
-                    this.viewportBottomRightX = Integer.parseInt(args[i+1]);
+                case "x1":
+                    this.viewportBottomRightX = Integer.parseInt(params[1]);
                     break;
-                case "-y0":
-                    this.viewportTopLeftY = Integer.parseInt(args[i+1]);
+                case "y0":
+                    this.viewportTopLeftY = Integer.parseInt(params[1]);
                     break;
-                case "-y1":
-                    this.viewportBottomRightY = Integer.parseInt(args[i+1]);
+                case "y1":
+                    this.viewportBottomRightY = Integer.parseInt(params[1]);
                     break;
-                case "-xS":
-                    this.startingPointX = Integer.parseInt(args[i+1]);
+                case "xS":
+                    this.startingPointX = Integer.parseInt(params[1]);
                     break;
-                case "-yS":
-                    this.startingPointY = Integer.parseInt(args[i+1]);
+                case "yS":
+                    this.startingPointY = Integer.parseInt(params[1]);
                     break;
-                case "-i":
-                    this.image = args[i+1];
+                case "i":
+                    this.image = params[1];
                     break;
-                case "-s":
-                    this.strategy = args[i+1];
+                case "s":
+                    this.strategy = params[1];
                     break;
                 default:
                     //should not reach here
@@ -65,6 +67,7 @@ public class Request {
         this.id = query;
         this.numberInstructions = 0;
         this.isComplete = false;
+        this.viewportArea = (viewportBottomRightX - viewportTopLeftX) * (viewportBottomRightY - viewportTopLeftY);
     }
 
     //Getters
@@ -92,10 +95,15 @@ public class Request {
     @DynamoDBAttribute(attributeName = "y1")
     public int getViewportBottomRightY() { return viewportBottomRightY; }
 
+    @DynamoDBAttribute(attributeName = "viewportArea")
+    public int getViewportArea () {
+        return viewportArea;
+    }
+
     @DynamoDBAttribute(attributeName = "xS")
     public int getStartingPointX() { return startingPointX; }
 
-    @DynamoDBAttribute(attributeName = "xY")
+    @DynamoDBAttribute(attributeName = "yS")
     public int getStartingPointY() { return startingPointY; }
 
     @DynamoDBAttribute(attributeName = "strategy")
@@ -142,6 +150,10 @@ public class Request {
         this.viewportBottomRightY = viewportBottomRightY;
     }
 
+    public void setViewportArea (int viewportArea) {
+        this.viewportArea = viewportArea;
+    }
+
     public void setStartingPointX(int startingPointX) {
         this.startingPointX = startingPointX;
     }
@@ -176,6 +188,7 @@ public class Request {
                 ", viewportTopLeftY=" + viewportTopLeftY +
                 ", viewportBottomRightX=" + viewportBottomRightX +
                 ", viewportBottomRightY=" + viewportBottomRightY +
+                ", viewportArea=" + viewportArea +
                 ", startingPointX=" + startingPointX +
                 ", startingPointY=" + startingPointY +
                 ", strategy='" + strategy + '\'' +

@@ -15,6 +15,7 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
@@ -100,6 +101,22 @@ public class MSS {
             .withHashKeyValues(partitionKey);
         
         return mapper.query(Request.class, queryExpression);
+    }
+
+    public static List<Request> getSimilarRequests(String strategy, int width, int height, int viewportArea) {
+        Map<String, AttributeValue> attributeValues = new HashMap<>();
+        attributeValues.put(":strategy", new AttributeValue().withS(strategy));
+        attributeValues.put(":width", new AttributeValue().withN(String.valueOf(width)));
+        attributeValues.put(":height", new AttributeValue().withN(String.valueOf(height)));
+        //attributeValues.put(":viewportArea", new AttributeValue().withN(viewportArea));
+
+        Request partitionKey = new Request();
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+                .withFilterExpression("strategy = :strategy and width = :width and height = :height")
+                .withExpressionAttributeValues(attributeValues);
+
+        return mapper.parallelScan(Request.class, scanExpression, 16);
     }
 
     public static void saveRequest(Request request) {

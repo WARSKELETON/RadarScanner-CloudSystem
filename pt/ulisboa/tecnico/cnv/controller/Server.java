@@ -127,13 +127,18 @@ public class Server {
         return laziestWorkerNode;
     }
 
-    public static Request getWorkloadEstimate(String query) {
-        List<Request> requests = mss.getRequestById(query);
+    public static Request getWorkloadEstimate(Request request) {
+        List<Request> requests = mss.getRequestById(request.getId());
 
         if (!requests.isEmpty()) {
             return requests.get(0);
         } else {
-            return null;
+            requests = mss.getSimilarRequests(request.getStrategy(), request.getWidth(), request.getHeight(), request.getViewportArea());
+            if (!requests.isEmpty()) {
+                return requests.get(0);
+            } else {
+                return null;
+            }
         }
     }
 }
