@@ -43,9 +43,9 @@ public class LoadBalancer {
 
     // TODO heath check
 
-    public LoadBalancer() {
+    public LoadBalancer () {
         HttpServer server = null;
-        try {    
+        try {
             //server = HttpServer.create(new InetSocketAddress(80), 0);
             server = HttpServer.create(new InetSocketAddress(LOCAL_IP, 8000), 0);
         } catch (Exception e) {
@@ -64,7 +64,7 @@ public class LoadBalancer {
 
     static class MyScanHandler implements HttpHandler {
         @Override
-        public void handle(final HttpExchange t) throws IOException {
+        public void handle (final HttpExchange t) throws IOException {
             int failedRequests = 0;
             long estimateWorkload = MAX_WORKLOAD;
 
@@ -77,14 +77,15 @@ public class LoadBalancer {
 
             final String[] params = query.split("&");
 
+            System.out.println("Workload");
             // Estimate request cost
             Request request = Server.getWorkloadEstimate(new Request(query, params));
-
+            System.out.println("Number instructions + " + request.getNumberInstructions());
             if (request != null) {
                 estimateWorkload = request.getNumberInstructions();
                 System.out.println("Request received has " + request.getNumberInstructions() + " number of instructions");
             }
-
+            System.out.println("Estimate workload + " + estimateWorkload + ", " + worker.getCurrentWorkload());
             if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD) {
                 System.out.println("Scaling up since laziest worker node will exceed the MAX_WORKLOAD supported.");
                 Server.requestScaleUp();
@@ -106,17 +107,17 @@ public class LoadBalancer {
                     int status = connection.getResponseCode();
                     if (status == HttpURLConnection.HTTP_OK) {
                         final Headers hdrs = t.getResponseHeaders();
-        
+
                         hdrs.add("Content-Type", "image/png");
-            
+
                         hdrs.add("Access-Control-Allow-Origin", "*");
                         hdrs.add("Access-Control-Allow-Credentials", "true");
                         hdrs.add("Access-Control-Allow-Methods", "POST, GET, HEAD, OPTIONS");
                         hdrs.add("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-            
+
                         t.sendResponseHeaders(200, 0);
 
-                        final InputStream in  = connection.getInputStream();
+                        final InputStream in = connection.getInputStream();
                         final BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                         final OutputStream os = t.getResponseBody();
 
@@ -126,11 +127,11 @@ public class LoadBalancer {
                         while ((length = in.read(bytes)) != -1) {
                             os.write(bytes, 0, length);
                         }
-            
+
                         in.close();
                         reader.close();
                         os.close();
-            
+
                         System.out.println("> Sent response to " + t.getRemoteAddress().toString());
                         break;
                     }

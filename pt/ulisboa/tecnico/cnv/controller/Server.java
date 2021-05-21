@@ -176,8 +176,9 @@ public class Server {
     }
 
     public static Request getWorkloadEstimate (Request request) {
+        System.out.println("Estimating");
         List<Request> requests = mss.getRequestById(request.getId());
-
+        System.out.println("requests " + requests.size());
         if (!requests.isEmpty()) {
             return requests.get(0);
         } else {
