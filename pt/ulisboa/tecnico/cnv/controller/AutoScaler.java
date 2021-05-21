@@ -41,9 +41,9 @@ public class AutoScaler {
     public final int SCALE_PERIOD = 60000;
     public final int GRACE_PERIOD = 60000;
     public final int MIN_CAPACITY = 1;
-    public final int MAX_CAPACITY = 2;
+    public final int MAX_CAPACITY = 10;
 
-    private final String AMI_ID = "ami-0a8dbb932f9c08460";
+    private final String AMI_ID = "ami-09871ea0d5dd9076b";
     private final String KEY_NAME = "CNV-Lab-AWS";
     private final String SECURITY_GROUP = "CNV-SSH-HTTP";
 
