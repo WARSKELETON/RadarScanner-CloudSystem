@@ -29,8 +29,17 @@ import java.util.HashSet;
 
 public class AutoScaler {
 
+    public final long MAX_WORKLOAD = 50000000;
+    public final double WORKLOAD_MAX_THRESHOLD = MAX_WORKLOAD * 0.70;
+    public final double WORKLOAD_MIN_THRESHOLD = MAX_WORKLOAD * 0.30;
+    public final double CPU_MAX_THRESHOLD = 0.7;
+    public final double CPU_MIN_THRESHOLD = 0.30;
+
+    public final int SCALING_STEP_UP = 1;
+    public final int SCALING_STEP_DOWN = 1;
+
+    public final int SCALE_PERIOD = 60000;
     public final int GRACE_PERIOD = 60000;
-    public final int DESIRED_CAPACITY = 1;
     public final int MIN_CAPACITY = 1;
     public final int MAX_CAPACITY = 2;
 
@@ -41,13 +50,20 @@ public class AutoScaler {
     private String myInstanceId;
 
     private AmazonEC2 ec2;
-    private AmazonCloudWatch cloudWatch;
 
     public AutoScaler() {
         try {
             initAWSClient();
             this.myInstanceId = EC2MetadataUtils.getInstanceId();
             initWorkerNodes();
+
+            // TODO health check
+
+            while (true) {
+                Thread.sleep(SCALE_PERIOD);
+                monitorWorkerNodes();
+            }
+
         } catch (Exception e) {
             System.err.println("Caught exception");
         }
@@ -65,7 +81,6 @@ public class AutoScaler {
                     e);
         }
         ec2 = AmazonEC2ClientBuilder.standard().withRegion("us-east-1").withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
-        cloudWatch = AmazonCloudWatchClientBuilder.standard().withRegion("us-east-1").withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
     }
 
     private void initWorkerNodes() throws Exception {
@@ -85,7 +100,7 @@ public class AutoScaler {
             }
 
             // Init system to the desired state
-            int drift = Server.getNumberOfWorkerNodes() - DESIRED_CAPACITY;
+            int drift = Server.getNumberOfWorkerNodes() - MIN_CAPACITY;
 
             if (drift < 0) {
                 createWorkerNodes(Math.abs(drift));
@@ -101,6 +116,15 @@ public class AutoScaler {
     }
 
     public void createWorkerNodes(int numberOfRequiredWorkers) {
+        int futureNumberOfWorkers = Server.getNumberOfWorkers() + numberOfRequiredWorkers;
+
+        if (futureNumberOfWorkers > MAX_CAPACITY) {
+            numberOfRequiredWorkers = futureNumberOfWorkers - MAX_CAPACITY;
+            if (numberOfRequiredWorkers == 0) return;
+
+            System.out.println("Only creating " + numberOfRequiredWorkers + " worker nodes because MAX_CAPACITY was reached.");
+        }
+
         RunInstancesRequest runInstancesRequest = new RunInstancesRequest();
         runInstancesRequest.withImageId(AMI_ID)
                 .withInstanceType("t2.micro")
@@ -149,7 +173,39 @@ public class AutoScaler {
         }
     }
 
+    public void monitorWorkerNodes() {
+        // TODO check if instances are healthy
+        Server.updateCurrentCPUUsage();
+
+        int totalCPUUtilization = 0;
+        long totalCurrentWorkload = 0;
+        int numberOfWorkers = Server.getWorkers().size();
+
+        for (WorkerNode workerNode : Server.getWorkers()) {
+            totalCPUUtilization += workerNode.getCurrentCPU();
+            totalCurrentWorkload += workerNode.getCurrentWorkload();
+        }
+
+        double averageCPUUtilization = totalCPUUtilization / numberOfWorkers;
+        double averageCurrentWorkload = totalCPUUtilization / numberOfWorkers;
+
+        if (averageCurrentWorkload > WORKLOAD_MAX_THRESHOLD && numberOfWorkers < MAX_CAPACITY) {
+            createWorkerNodes(SCALING_STEP_UP);
+        } else if (averageCPUUtilization < CPU_MIN_THRESHOLD && averageCurrentWorkload < WORKLOAD_MIN_THRESHOLD && numberOfWorkers > MIN_CAPACITY) {
+            terminateWorkerNodes(SCALING_STEP_DOWN);
+        }
+    }
+
     public void terminateWorkerNodes(int numberOfRequiredWorkers) {
+        int futureNumberOfWorkers = Server.getNumberOfWorkers() - numberOfRequiredWorkers;
+
+        if (futureNumberOfWorkers < MIN_CAPACITY) {
+            numberOfRequiredWorkers = MIN_CAPACITY - futureNumberOfWorkers;
+            if (numberOfRequiredWorkers == 0) return;
+
+            System.out.println("Only terminating " + numberOfRequiredWorkers + " worker nodes because MAX_CAPACITY was reached.");
+        }
+
         System.out.println("Instance termination...");
     }
 }

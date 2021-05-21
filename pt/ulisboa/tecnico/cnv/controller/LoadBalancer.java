@@ -36,9 +36,12 @@ import javax.imageio.ImageIO;
 
 public class LoadBalancer {
 
+    public static final long MAX_WORKLOAD = 50000000;
     public static final int REQUEST_TIMEOUT = 300000;
     public static final int MAX_REQUESTS = 3;
     private static final String LOCAL_IP = "0.0.0.0";
+
+    // TODO heath check
 
     public LoadBalancer() {
         HttpServer server = null;
@@ -63,6 +66,7 @@ public class LoadBalancer {
         @Override
         public void handle(final HttpExchange t) throws IOException {
             int failedRequests = 0;
+            long estimateWorkload = MAX_WORKLOAD;
 
             final String query = t.getRequestURI().getQuery();
             WorkerNode worker = Server.getLaziestWorkerNode();
@@ -77,7 +81,13 @@ public class LoadBalancer {
             Request request = Server.getWorkloadEstimate(new Request(query, params));
 
             if (request != null) {
+                estimateWorkload = request.getNumberInstructions();
                 System.out.println("Request received has " + request.getNumberInstructions() + " number of instructions");
+            }
+
+            if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD) {
+                System.out.println("Scaling up since laziest worker node will exceed the MAX_WORKLOAD supported.");
+                Server.requestScaleUp();
             }
 
             String queryUrlString = "http://" + workerIp + ":8000/scan?" + query;
@@ -89,6 +99,9 @@ public class LoadBalancer {
                     connection.setDoOutput(true);
                     connection.setConnectTimeout(REQUEST_TIMEOUT);
                     System.out.println("Load Balancer forwarding scan request to worker node with IP address " + workerIp);
+
+                    worker.incrementCurrentNumberRequests();
+                    worker.incrementCurrentWorkload(estimateWorkload);
 
                     int status = connection.getResponseCode();
                     if (status == HttpURLConnection.HTTP_OK) {
@@ -122,8 +135,12 @@ public class LoadBalancer {
                         break;
                     }
                     failedRequests++;
+                    worker.decrementCurrentNumberRequests();
+                    worker.decrementCurrentWorkload(estimateWorkload);
                 } catch (Exception e) {
                     failedRequests++;
+                    worker.decrementCurrentNumberRequests();
+                    worker.decrementCurrentWorkload(estimateWorkload);
                 }
             }
         }

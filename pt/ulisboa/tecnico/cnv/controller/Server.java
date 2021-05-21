@@ -33,6 +33,8 @@ import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +59,7 @@ import pt.ulisboa.tecnico.cnv.mss.MSS;
 
 public class Server {
 
+    private static AmazonCloudWatch cloudWatch;
     private static LoadBalancer loadBalancer;
     private static AutoScaler autoScaler;
     private static MSS mss;
@@ -64,17 +67,40 @@ public class Server {
     private static final Object workerLock = new Object();
     private static Map<String, WorkerNode> workers = new ConcurrentHashMap<>();
 
-    public static void main(String[] args) throws Exception {
+    public static void main (String[] args) throws Exception {
+        initCloudWatch();
         loadBalancer = new LoadBalancer();
         autoScaler = new AutoScaler();
         mss = new MSS();
         mss.init();
 
-        while(true) {
+        while (true) {
         }
     }
 
-    public static WorkerNode getLaziestWorkerNode() {
+    public static List<WorkerNode> getWorkers() {
+        return new ArrayList<>(workers.values());
+    }
+
+    public static int getNumberOfWorkers() {
+        return workers.size();
+    }
+
+    public static void initCloudWatch () {
+        AWSCredentials credentials = null;
+        try {
+            credentials = new ProfileCredentialsProvider().getCredentials();
+        } catch (Exception e) {
+            throw new AmazonClientException(
+                    "Cannot load the credentials from the credential profiles file. " +
+                            "Please make sure that your credentials file is at the correct " +
+                            "location (~/.aws/credentials), and is in valid format.",
+                    e);
+        }
+        cloudWatch = AmazonCloudWatchClientBuilder.standard().withRegion("us-east-1").withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+    }
+
+    public static WorkerNode getLaziestWorkerNode () {
         WorkerNode laziestWorkerNode = null;
 
         synchronized (workerLock) {
@@ -90,16 +116,66 @@ public class Server {
         return laziestWorkerNode;
     }
 
-    public static void addWorkerNode(Instance instance) {
+    public static void addWorkerNode (Instance instance) {
         workers.put(instance.getInstanceId(), new WorkerNode(instance));
         System.out.println("Added worker node with ID " + instance.getInstanceId());
     }
 
-    public static int getNumberOfWorkerNodes() {
+    public static void updateCurrentCPUUsage () {
+        long offsetInMilliseconds = 1000 * 60 * 5; // 5 minutes
+
+        Dimension dimension = new Dimension();
+        dimension.setName("InstanceId");
+
+        for (WorkerNode workerNode : workers.values()) {
+            Instance instance = workerNode.getInstance();
+            String instanceId = instance.getInstanceId();
+
+            dimension.setValue(instanceId);
+
+            GetMetricStatisticsRequest request = new GetMetricStatisticsRequest()
+                    .withStartTime(new Date(new Date().getTime() - offsetInMilliseconds))
+                    .withNamespace("AWS/EC2")
+                    .withPeriod(60)
+                    .withMetricName("CPUUtilization")
+                    .withStatistics("Average")
+                    .withDimensions(dimension)
+                    .withEndTime(new Date());
+
+            GetMetricStatisticsResult getMetricStatisticsResult = cloudWatch.getMetricStatistics(request);
+            List<Datapoint> datapoints = getMetricStatisticsResult.getDatapoints();
+
+            Datapoint lastDatapoint = null;
+            for (Datapoint dp : datapoints) {
+                if (lastDatapoint == null) {
+                    lastDatapoint = dp;
+                }
+                if (lastDatapoint.getTimestamp().before(dp.getTimestamp())) {
+                    lastDatapoint = dp;
+                }
+            }
+
+            double average;
+            if (lastDatapoint != null) {
+                average = lastDatapoint.getAverage();
+            } else {
+                average = 0;
+            }
+
+            workerNode.setCurrentCPU(average);
+            System.out.println("Instance with ID " + instanceId + " with an average CPU utilization of " + average);
+        }
+    }
+
+    public static void requestScaleUp() {
+        autoScaler.createWorkerNodes(1);
+    }
+
+    public static int getNumberOfWorkerNodes () {
         return workers.values().size();
     }
 
-    public static Request getWorkloadEstimate(Request request) {
+    public static Request getWorkloadEstimate (Request request) {
         List<Request> requests = mss.getRequestById(request.getId());
 
         if (!requests.isEmpty()) {

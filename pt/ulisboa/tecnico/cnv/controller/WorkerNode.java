@@ -8,7 +8,7 @@ public class WorkerNode {
     private String id;
     private int currentNumberRequests;
     private long currentWorkload;
-    private int currentCPU;
+    private double currentCPU;
 
     public WorkerNode (Instance instance) {
         this.instance = instance;
@@ -34,6 +34,14 @@ public class WorkerNode {
         this.currentNumberRequests = currentNumberRequests;
     }
 
+    public void incrementCurrentNumberRequests () {
+        this.currentNumberRequests++;
+    }
+
+    public void decrementCurrentNumberRequests () {
+        this.currentNumberRequests--;
+    }
+
     public long getCurrentWorkload () {
         return currentWorkload;
     }
@@ -42,11 +50,24 @@ public class WorkerNode {
         this.currentWorkload = currentWorkload;
     }
 
-    public int getCurrentCPU () {
+    public void incrementCurrentWorkload (long workload) {
+        this.currentWorkload += workload;
+    }
+
+    public void decrementCurrentWorkload (long workload) {
+        long finalWorkload = currentWorkload - workload;
+        if (finalWorkload <= 0) {
+            this.currentWorkload = 0;
+        } else {
+            this.currentWorkload = finalWorkload;
+        }
+    }
+
+    public double getCurrentCPU () {
         return currentCPU;
     }
 
-    public void setCurrentCPU (int currentCPU) {
+    public void setCurrentCPU (double currentCPU) {
         this.currentCPU = currentCPU;
     }
 
