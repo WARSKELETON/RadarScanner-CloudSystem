@@ -87,9 +87,9 @@ public class Server {
     }
 
     public static void initCloudWatch () {
-        AWSCredentials credentials = null;
+        ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
         try {
-            credentials = new ProfileCredentialsProvider().getCredentials();
+            credentialsProvider.getCredentials();
         } catch (Exception e) {
             throw new AmazonClientException(
                     "Cannot load the credentials from the credential profiles file. " +
@@ -97,7 +97,10 @@ public class Server {
                             "location (~/.aws/credentials), and is in valid format.",
                     e);
         }
-        cloudWatch = AmazonCloudWatchClientBuilder.standard().withRegion("us-east-1").withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        cloudWatch = AmazonCloudWatchClientBuilder.standard()
+                .withRegion("us-east-1")
+                .withCredentials(credentialsProvider)
+                .build();
     }
 
     public static WorkerNode getLaziestWorkerNode () {
