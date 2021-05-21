@@ -133,6 +133,8 @@ public class LoadBalancer {
                         os.close();
 
                         System.out.println("> Sent response to " + t.getRemoteAddress().toString());
+                        worker.decrementCurrentNumberRequests();
+                        worker.decrementCurrentWorkload(estimateWorkload);
                         break;
                     }
                     failedRequests++;
