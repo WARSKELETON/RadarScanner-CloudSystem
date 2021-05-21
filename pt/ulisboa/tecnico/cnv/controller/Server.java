@@ -69,10 +69,10 @@ public class Server {
 
     public static void main (String[] args) throws Exception {
         initCloudWatch();
-        loadBalancer = new LoadBalancer();
-        autoScaler = new AutoScaler();
         mss = new MSS();
         mss.init();
+        loadBalancer = new LoadBalancer();
+        autoScaler = new AutoScaler();
 
         while (true) {
         }
@@ -181,7 +181,7 @@ public class Server {
     public static Request getWorkloadEstimate (Request request) {
         System.out.println("Estimating");
         List<Request> requests = mss.getRequestById(request.getId());
-        System.out.println("requests ");
+
         if (requests != null && !requests.isEmpty()) {
             return requests.get(0);
         } else {

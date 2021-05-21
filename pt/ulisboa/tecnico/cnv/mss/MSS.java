@@ -99,14 +99,7 @@ public class MSS {
         DynamoDBQueryExpression<Request> queryExpression = new DynamoDBQueryExpression<Request>()
             .withHashKeyValues(partitionKey);
 
-        List<Request> requestList = null;
-        try {
-            requestList = mapper.query(Request.class, queryExpression);
-        } catch (Exception e) {
-            System.out.println("Getting Requests By Id... No requests stored yet");
-        }
-
-        return requestList;
+        return mapper.query(Request.class, queryExpression);
     }
 
     public static List<Request> getSimilarRequests(String strategy, int width, int height, int viewportArea) {
@@ -122,14 +115,7 @@ public class MSS {
                 .withFilterExpression("strategy = :strategy and width = :width and height = :height")
                 .withExpressionAttributeValues(attributeValues);
 
-        List<Request> requestList = null;
-        try {
-            requestList = mapper.parallelScan(Request.class, scanExpression, 16);
-        } catch (Exception e) {
-            System.out.println("Getting Similar Requests... No requests stored yet");
-        }
-
-        return requestList;
+        return mapper.parallelScan(Request.class, scanExpression, 16);
     }
 
     public static void saveRequest(Request request) {
