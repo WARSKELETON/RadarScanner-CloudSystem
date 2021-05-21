@@ -178,12 +178,12 @@ public class Server {
     public static Request getWorkloadEstimate (Request request) {
         System.out.println("Estimating");
         List<Request> requests = mss.getRequestById(request.getId());
-        System.out.println("requests " + requests.size());
-        if (!requests.isEmpty()) {
+        System.out.println("requests ");
+        if (requests != null && !requests.isEmpty()) {
             return requests.get(0);
         } else {
             requests = mss.getSimilarRequests(request.getStrategy(), request.getWidth(), request.getHeight(), request.getViewportArea());
-            if (!requests.isEmpty()) {
+            if (requests != null && !requests.isEmpty()) {
                 return requests.get(0);
             } else {
                 return null;

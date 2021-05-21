@@ -80,12 +80,12 @@ public class LoadBalancer {
             System.out.println("Workload");
             // Estimate request cost
             Request request = Server.getWorkloadEstimate(new Request(query, params));
-            System.out.println("Number instructions + " + request.getNumberInstructions());
+
             if (request != null) {
                 estimateWorkload = request.getNumberInstructions();
                 System.out.println("Request received has " + request.getNumberInstructions() + " number of instructions");
             }
-            System.out.println("Estimate workload + " + estimateWorkload + ", " + worker.getCurrentWorkload());
+
             if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD) {
                 System.out.println("Scaling up since laziest worker node will exceed the MAX_WORKLOAD supported.");
                 Server.requestScaleUp();

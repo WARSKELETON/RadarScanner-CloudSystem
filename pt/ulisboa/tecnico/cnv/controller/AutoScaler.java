@@ -184,14 +184,20 @@ public class AutoScaler {
         for (WorkerNode workerNode : Server.getWorkers()) {
             totalCPUUtilization += workerNode.getCurrentCPU();
             totalCurrentWorkload += workerNode.getCurrentWorkload();
-        }
 
+        }
+        System.out.println("Scaling up from " + numberOfWorkers " to " + (numberOfWorkers + 1));
         double averageCPUUtilization = totalCPUUtilization / numberOfWorkers;
         double averageCurrentWorkload = totalCPUUtilization / numberOfWorkers;
 
+        System.out.println("averageCurrentWorkload: " + averageCurrentWorkload);
+        System.out.println("numberOfWorkers: " + numberOfWorkers);
+        System.out.println("averageCPUUtilization: " + averageCPUUtilization);
         if (averageCurrentWorkload > WORKLOAD_MAX_THRESHOLD && numberOfWorkers < MAX_CAPACITY) {
+            System.out.println("Scaling up from " + numberOfWorkers " to " + (numberOfWorkers + SCALING_STEP_UP));
             createWorkerNodes(SCALING_STEP_UP);
         } else if (averageCPUUtilization < CPU_MIN_THRESHOLD && averageCurrentWorkload < WORKLOAD_MIN_THRESHOLD && numberOfWorkers > MIN_CAPACITY) {
+            System.out.println("Scaling down from " + numberOfWorkers " to " + (numberOfWorkers + SCALING_STEP_DOWN));
             terminateWorkerNodes(SCALING_STEP_DOWN);
         }
     }

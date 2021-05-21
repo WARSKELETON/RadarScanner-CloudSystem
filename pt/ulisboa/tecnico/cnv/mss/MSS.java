@@ -99,7 +99,7 @@ public class MSS {
         DynamoDBQueryExpression<Request> queryExpression = new DynamoDBQueryExpression<Request>()
             .withHashKeyValues(partitionKey);
 
-        List<Request> requestList;
+        List<Request> requestList = null;
         try {
             requestList = mapper.query(Request.class, queryExpression);
         } catch (Exception e) {
@@ -122,7 +122,7 @@ public class MSS {
                 .withFilterExpression("strategy = :strategy and width = :width and height = :height")
                 .withExpressionAttributeValues(attributeValues);
 
-        List<Request> requestList;
+        List<Request> requestList = null;
         try {
             requestList = mapper.parallelScan(Request.class, scanExpression, 16);
         } catch (Exception e) {
