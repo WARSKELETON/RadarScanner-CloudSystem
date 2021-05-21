@@ -43,7 +43,7 @@ public class AutoScaler {
     public final int MIN_CAPACITY = 1;
     public final int MAX_CAPACITY = 10;
 
-    private final String AMI_ID = "ami-09871ea0d5dd9076b";
+    private final String AMI_ID = "ami-0ea3981ae7973d711";
     private final String KEY_NAME = "CNV-Lab-AWS";
     private final String SECURITY_GROUP = "CNV-SSH-HTTP";
 
@@ -188,7 +188,7 @@ public class AutoScaler {
         }
         System.out.println("Scaling up from " + numberOfWorkers + " to " + (numberOfWorkers + 1));
         double averageCPUUtilization = totalCPUUtilization / numberOfWorkers;
-        double averageCurrentWorkload = totalCPUUtilization / numberOfWorkers;
+        double averageCurrentWorkload = totalCurrentWorkload / numberOfWorkers;
 
         System.out.println("averageCurrentWorkload: " + averageCurrentWorkload);
         System.out.println("numberOfWorkers: " + numberOfWorkers);
