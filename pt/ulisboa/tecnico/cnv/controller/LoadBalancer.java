@@ -88,7 +88,7 @@ public class LoadBalancer {
 
             if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD) {
                 System.out.println("Scaling up since laziest worker node will exceed the MAX_WORKLOAD supported.");
-                Server.requestScaleUp();
+                //Server.requestScaleUp();
             }
 
             String queryUrlString = "http://" + workerIp + ":8000/scan?" + query;
