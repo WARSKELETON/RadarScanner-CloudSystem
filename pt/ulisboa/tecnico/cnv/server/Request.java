@@ -29,7 +29,7 @@ public class Request {
     public Request(String query, String[] args){
         for (int i = 0; i < args.length; i++){
             final String[] params = args[i].split("=");
-            switch (params[0]){
+            switch (params[0]) {
                 case "w":
                     this.width = Integer.parseInt(params[1]);
                     break;
@@ -60,13 +60,15 @@ public class Request {
                 case "s":
                     this.strategy = params[1];
                     break;
+                case "c":
+                    this.isComplete = Boolean.parseBoolean(params[1]);
+                    break;
                 default:
                     //should not reach here
             }
         }
-        this.id = query;
+        this.id = query.split("&c=")[0];
         this.numberInstructions = 0;
-        this.isComplete = false;
         this.viewportArea = (viewportBottomRightX - viewportTopLeftX) * (viewportBottomRightY - viewportTopLeftY);
     }
 

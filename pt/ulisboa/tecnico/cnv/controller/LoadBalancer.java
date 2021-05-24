@@ -68,22 +68,39 @@ public class LoadBalancer {
             int failedRequests = 0;
             long estimateWorkload = MAX_WORKLOAD;
 
-            final String query = t.getRequestURI().getQuery();
+            final String originalQuery = t.getRequestURI().getQuery();
+            String estimateQueryRequest = originalQuery + "&c=false";
             WorkerNode worker = Server.getLaziestWorkerNode();
+            if (worker == null) {
+                System.out.println("LoadBalancer found no available worker nodes to handle scan request...");
+                sendInternalServerErrorResponse(t);
+                return;
+            }
             String workerIp = worker.getInstance().getPublicIpAddress();
             //String workerIp = LOCAL_IP;
 
-            System.out.println("> Query:\t" + query);
+            System.out.println("> Query:\t" + estimateQueryRequest);
 
-            final String[] params = query.split("&");
+            final String[] params = estimateQueryRequest.split("&");
 
             System.out.println("Workload");
             // Estimate request cost
-            Request request = Server.getWorkloadEstimate(new Request(query, params));
+            Request request = Server.getWorkloadEstimate(new Request(estimateQueryRequest, params));
+            String query = originalQuery;
 
             if (request != null) {
                 estimateWorkload = request.getNumberInstructions();
+
+                // Check if we already know the exact cost of the request to avoid running instrumented code in the Worker Node
+                if (request.getId().equals(originalQuery)) {
+                    query += "&c=true";
+                } else {
+                    query += "&c=false";
+                }
+
                 System.out.println("Request received has " + request.getNumberInstructions() + " number of instructions");
+            } else {
+                query += "&c=false";
             }
 
             if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD) {
@@ -145,7 +162,36 @@ public class LoadBalancer {
                     worker.decrementCurrentNumberRequests();
                     worker.decrementCurrentWorkload(estimateWorkload);
                 }
+
+                if (failedRequests == MAX_REQUESTS) {
+                    worker.setHealthy(false);
+                    failedRequests = 0;
+
+                    // Try to get a new healthy worker
+                    worker = Server.getLaziestWorkerNode();
+                    if (worker == null) {
+                        System.out.println("LoadBalancer found no available worker nodes to handle scan request...");
+                        sendInternalServerErrorResponse(t);
+                        break;
+                    }
+                    workerIp = worker.getInstance().getPublicIpAddress();
+
+                    queryUrlString = "http://" + workerIp + ":8000/scan?" + query;
+                }
             }
+        }
+
+        private void sendInternalServerErrorResponse(final HttpExchange t) throws IOException {
+            String response = "I am sorry to inform, there is no server available. Please try later...\n";
+
+            t.sendResponseHeaders(500, response.length());
+            OutputStream os = t.getResponseBody();
+
+            os.write(response.getBytes());
+
+            os.close();
+
+            System.out.println("> Sent response to " + t.getRemoteAddress().toString());
         }
     }
 }

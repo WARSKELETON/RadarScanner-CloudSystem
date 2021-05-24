@@ -9,6 +9,7 @@ public class WorkerNode {
     private int currentNumberRequests;
     private long currentWorkload;
     private double currentCPU;
+    private boolean healthy;
 
     public WorkerNode (Instance instance) {
         this.instance = instance;
@@ -16,6 +17,7 @@ public class WorkerNode {
         this.currentNumberRequests = 0;
         this.currentWorkload = 0;
         this.currentCPU = 0;
+        this.healthy = true;
     }
 
     public String getId () {
@@ -77,5 +79,13 @@ public class WorkerNode {
 
     public void setInstance(Instance instance) {
         this.instance = instance;
+    }
+
+    public boolean isHealthy() {
+        return healthy;
+    }
+
+    public void setHealthy(boolean healthy) {
+        this.healthy = healthy;
     }
 }

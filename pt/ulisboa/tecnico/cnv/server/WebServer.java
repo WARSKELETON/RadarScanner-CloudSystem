@@ -117,8 +117,12 @@ public class WebServer {
 			for (final String p : params) {
 				final String[] splitParam = p.split("=");
 
-				if(splitParam[0].equals("i")) {
+				if (splitParam[0].equals("i")) {
 					splitParam[1] = WebServer.sap.getMapsDirectory() + "/" + splitParam[1];
+				}
+
+				if (splitParam[0].equals("c")) {
+					continue;
 				}
 
 				newArgs.add("-" + splitParam[0]);

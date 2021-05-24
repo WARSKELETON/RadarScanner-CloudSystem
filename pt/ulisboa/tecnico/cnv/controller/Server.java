@@ -67,7 +67,7 @@ public class Server {
     private static final Object workerLock = new Object();
     private static Map<String, WorkerNode> workers = new ConcurrentHashMap<>();
 
-    public static void main (String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         initCloudWatch();
         mss = new MSS();
         mss.init();
@@ -86,7 +86,7 @@ public class Server {
         return workers.size();
     }
 
-    public static void initCloudWatch () {
+    public static void initCloudWatch() {
         ProfileCredentialsProvider credentialsProvider = new ProfileCredentialsProvider();
         try {
             credentialsProvider.getCredentials();
@@ -103,12 +103,12 @@ public class Server {
                 .build();
     }
 
-    public static WorkerNode getLaziestWorkerNode () {
+    public static WorkerNode getLaziestWorkerNode() {
         WorkerNode laziestWorkerNode = null;
 
         synchronized (workerLock) {
             for (WorkerNode worker : workers.values()) {
-                if (laziestWorkerNode == null || worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload()) {
+                if (laziestWorkerNode == null || (worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload() && worker.isHealthy())) {
                     laziestWorkerNode = worker;
                 }
             }
@@ -119,12 +119,17 @@ public class Server {
         return laziestWorkerNode;
     }
 
-    public static void addWorkerNode (Instance instance) {
+    public static void addWorkerNode(Instance instance) {
         workers.put(instance.getInstanceId(), new WorkerNode(instance));
         System.out.println("Added worker node with ID " + instance.getInstanceId());
     }
 
-    public static void updateCurrentCPUUsage () {
+    public static void removeWorkerNode(String instanceId) {
+        workers.remove(instanceId);
+        System.out.println("Removed worker node with ID " + instanceId);
+    }
+
+    public static void updateCurrentCPUUsage() {
         long offsetInMilliseconds = 1000 * 60 * 5; // 5 minutes
 
         Dimension dimension = new Dimension();
@@ -174,11 +179,11 @@ public class Server {
         autoScaler.createWorkerNodes(1);
     }
 
-    public static int getNumberOfWorkerNodes () {
+    public static int getNumberOfWorkerNodes() {
         return workers.values().size();
     }
 
-    public static Request getWorkloadEstimate (Request request) {
+    public static Request getWorkloadEstimate(Request request) {
         System.out.println("Estimating");
         List<Request> requests = mss.getRequestById(request.getId());
 

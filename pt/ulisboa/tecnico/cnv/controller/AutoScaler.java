@@ -174,7 +174,7 @@ public class AutoScaler {
     }
 
     public void monitorWorkerNodes() {
-        // TODO check if instances are healthy
+        terminateUnhealthyNodes();
         Server.updateCurrentCPUUsage();
 
         int totalCPUUtilization = 0;
@@ -184,8 +184,8 @@ public class AutoScaler {
         for (WorkerNode workerNode : Server.getWorkers()) {
             totalCPUUtilization += workerNode.getCurrentCPU();
             totalCurrentWorkload += workerNode.getCurrentWorkload();
-
         }
+
         System.out.println("Scaling up from " + numberOfWorkers + " to " + (numberOfWorkers + 1));
         double averageCPUUtilization = totalCPUUtilization / numberOfWorkers;
         double averageCurrentWorkload = totalCurrentWorkload / numberOfWorkers;
@@ -193,12 +193,22 @@ public class AutoScaler {
         System.out.println("averageCurrentWorkload: " + averageCurrentWorkload);
         System.out.println("numberOfWorkers: " + numberOfWorkers);
         System.out.println("averageCPUUtilization: " + averageCPUUtilization);
+
+        // We only want to scale up when above our max threshold based on our metrics, to avoid reacting to spikes
         if (averageCurrentWorkload > WORKLOAD_MAX_THRESHOLD && numberOfWorkers < MAX_CAPACITY) {
             System.out.println("Scaling up from " + numberOfWorkers + " to " + (numberOfWorkers + SCALING_STEP_UP));
             createWorkerNodes(SCALING_STEP_UP);
         } else if (averageCPUUtilization < CPU_MIN_THRESHOLD && averageCurrentWorkload < WORKLOAD_MIN_THRESHOLD && numberOfWorkers > MIN_CAPACITY) {
             System.out.println("Scaling down from " + numberOfWorkers + " to " + (numberOfWorkers + SCALING_STEP_DOWN));
             terminateWorkerNodes(SCALING_STEP_DOWN);
+        }
+    }
+
+    private void terminateUnhealthyNodes() {
+        for (WorkerNode workerNode : Server.getWorkers()) {
+            if (!workerNode.isHealthy() && workerNode.getCurrentNumberRequests() == 0) {
+                terminateWorkerNode(workerNode.getInstance().getInstanceId());
+            }
         }
     }
 
@@ -213,5 +223,14 @@ public class AutoScaler {
         }
 
         System.out.println("Instance termination...");
+    }
+
+    private void terminateWorkerNode(String instanceId) {
+        System.out.println("AutoScaler Terminating worker node with ID " + instanceId);
+        TerminateInstancesRequest terminateInstancesRequest = new TerminateInstancesRequest();
+        terminateInstancesRequest.withInstanceIds(instanceId);
+        ec2.terminateInstances(terminateInstancesRequest);
+
+        Server.removeWorkerNode(instanceId);
     }
 }
