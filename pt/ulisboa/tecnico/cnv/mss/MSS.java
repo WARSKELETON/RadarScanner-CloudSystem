@@ -164,6 +164,13 @@ public class MSS {
         // Calculate weighted average with requests closer to the original with more weight
         for (Request request : requests) {
             double distance = getStartingPointDistanceToUpperLeftCorner(request);
+            double distanceDiff = Math.abs(originalDistance - distance);
+
+            if (distanceDiff == 0) {
+                mostSimilarRequest.setNumberInstructions(request.getNumberInstructions());
+                return mostSimilarRequest;
+            }
+            
             double requestWeight = 1 / Math.abs(originalDistance - distance);
             distancesSum += requestWeight;
             sum += requestWeight * request.getNumberInstructions();
