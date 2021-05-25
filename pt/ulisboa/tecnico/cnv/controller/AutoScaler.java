@@ -214,6 +214,7 @@ public class AutoScaler {
 
     private void terminateUnhealthyNodes() {
         for (WorkerNode workerNode : Server.getWorkers()) {
+            System.out.println("Worker with health " + workerNode.isHealthy() + " with requests " + workerNode.getCurrentNumberRequests());
             if (!workerNode.isHealthy() && workerNode.getCurrentNumberRequests() == 0) {
                 terminateWorkerNode(workerNode.getInstance().getInstanceId());
             }

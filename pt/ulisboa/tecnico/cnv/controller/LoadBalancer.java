@@ -176,7 +176,7 @@ public class LoadBalancer {
                     worker.decrementCurrentWorkload(estimateWorkload);
                 }
 
-                if (failedRequests == MAX_REQUESTS) {
+                if (failedRequests >= MAX_REQUESTS) {
                     worker.setHealthy(false);
                     failedRequests = 0;
 
