@@ -171,6 +171,16 @@ public class AutoScaler {
         }
     }
 
+    private void correctDrift() {
+        System.out.println("Autoscaler checking if there is a negative drift...");
+        int drift = Server.getNumberOfWorkerNodes() - MIN_CAPACITY;
+
+        if (drift < 0) {
+            System.out.println("Autoscaler detected negative drift of " + drift + " creating new worker nodes...");
+            createWorkerNodes(Math.abs(drift));
+        }
+    }
+
     public void monitorWorkerNodes() {
         System.out.println("Autoscaler monitoring nodes...");
         terminateUnhealthyNodes();
@@ -208,6 +218,8 @@ public class AutoScaler {
                 terminateWorkerNode(workerNode.getInstance().getInstanceId());
             }
         }
+
+        correctDrift();
     }
 
     public void terminateWorkerNodes(int numberOfWorkersToTerminate) {
@@ -228,6 +240,8 @@ public class AutoScaler {
         }
 
         System.out.println("Instance termination...");
+
+        correctDrift();
     }
 
     private void terminateWorkerNode(String instanceId) {
