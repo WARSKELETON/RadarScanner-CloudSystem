@@ -185,7 +185,7 @@ public class LoadBalancer {
                     // If none found, request urgent scale up
                     if (worker == null) {
                         System.out.println("LoadBalancer found no available worker nodes requesting urgent scale up...");
-                        Server.requestScaleUp();
+                        //Server.requestScaleUp();
                         try {
                             System.out.println("LoadBalancer Starting to sleep...");
                             Thread.sleep(GRACE_PERIOD);
