@@ -108,13 +108,19 @@ public class Server {
 
         synchronized (workerLock) {
             for (WorkerNode worker : workers.values()) {
-                if (laziestWorkerNode == null || (worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload() && laziestWorkerNode.getInstance().getState().getName().equals("running") && worker.isHealthy())) {
+                if (laziestWorkerNode == null && worker.getInstance().getState().getName().equals("running") && worker.isHealthy()) {
+                    laziestWorkerNode = worker;
+                } else if (laziestWorkerNode != null && worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload() && worker.getInstance().getState().getName().equals("running") && worker.isHealthy()) {
                     laziestWorkerNode = worker;
                 }
             }
         }
 
-        System.out.println("Found laziest worker node with ID " + laziestWorkerNode.getInstance().getInstanceId());
+        if (laziestWorkerNode != null) {
+            System.out.println("Found laziest worker node with ID " + laziestWorkerNode.getInstance().getInstanceId());
+        } else {
+            System.out.println("Found no laziest worker node");
+        }
 
         return laziestWorkerNode;
     }

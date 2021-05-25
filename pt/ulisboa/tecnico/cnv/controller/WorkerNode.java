@@ -57,7 +57,7 @@ public class WorkerNode {
     }
 
     public void decrementCurrentWorkload (long workload) {
-        long finalWorkload = currentWorkload - workload;
+        long finalWorkload = this.currentWorkload - workload;
         if (finalWorkload <= 0) {
             this.currentWorkload = 0;
         } else {
