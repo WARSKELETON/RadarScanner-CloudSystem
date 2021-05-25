@@ -187,7 +187,9 @@ public class LoadBalancer {
                         System.out.println("LoadBalancer found no available worker nodes requesting urgent scale up...");
                         Server.requestScaleUp();
                         try {
+                            System.out.println("LoadBalancer Starting to sleep...");
                             Thread.sleep(GRACE_PERIOD);
+                            System.out.println("LoadBalancer fucking woke up...");
                         } catch (InterruptedException e) {
                             System.out.println("LoadBalancer caught exception");
                         }
