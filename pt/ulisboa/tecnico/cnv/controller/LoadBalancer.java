@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.lang.InterruptedException;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -44,13 +45,13 @@ public class LoadBalancer {
 
     public static final long MAX_WORKLOAD = 500000000;
     public static final int REQUEST_TIMEOUT = 300000;
+    public static final int GRACE_PERIOD = 60000;
     public static final int MAX_REQUESTS = 3;
     private static final String LOCAL_IP = "0.0.0.0";
 
     public LoadBalancer () {
         HttpServer server = null;
         try {
-            //server = HttpServer.create(new InetSocketAddress(80), 0);
             server = HttpServer.create(new InetSocketAddress(LOCAL_IP, 8000), 0);
         } catch (Exception e) {
             System.err.println("Failed to launch load balancer " + e.getMessage());
@@ -78,12 +79,18 @@ public class LoadBalancer {
             String estimateQueryRequest = originalQuery + "&c=false";
             WorkerNode worker = Server.getLaziestWorkerNode();
             if (worker == null) {
-                System.out.println("LoadBalancer found no available worker nodes to handle scan request...");
-                sendInternalServerErrorResponse(t);
-                return;
+                System.out.println("LoadBalancer found no available worker nodes requesting urgent scale up...");
+                Server.requestScaleUp();
+                try {
+                    Thread.sleep(GRACE_PERIOD);
+                } catch (InterruptedException e) {
+                    System.out.println("LoadBalancer caught exception");
+                }
+                while (worker == null) {
+                    worker = Server.getLaziestWorkerNode();
+                }
             }
             String workerIp = worker.getInstance().getPublicIpAddress();
-            //String workerIp = LOCAL_IP;
 
             System.out.println("> Query:\t" + estimateQueryRequest);
 
@@ -173,12 +180,20 @@ public class LoadBalancer {
                     worker.setHealthy(false);
                     failedRequests = 0;
 
-                    // Try to get a new healthy worker
+                    // Get a new healthy worker
                     worker = Server.getLaziestWorkerNode();
+                    // If none found, request urgent scale up
                     if (worker == null) {
-                        System.out.println("LoadBalancer found no available worker nodes to handle scan request...");
-                        sendInternalServerErrorResponse(t);
-                        break;
+                        System.out.println("LoadBalancer found no available worker nodes requesting urgent scale up...");
+                        Server.requestScaleUp();
+                        try {
+                            Thread.sleep(GRACE_PERIOD);
+                        } catch (InterruptedException e) {
+                            System.out.println("LoadBalancer caught exception");
+                        }
+                        while (worker == null) {
+                            worker = Server.getLaziestWorkerNode();
+                        }
                     }
                     workerIp = worker.getInstance().getPublicIpAddress();
 
@@ -186,22 +201,9 @@ public class LoadBalancer {
                 }
             }
         }
-
-        private void sendInternalServerErrorResponse (final HttpExchange t) throws IOException {
-            String response = "I am sorry to inform, there is no server available. Please try later...\n";
-
-            t.sendResponseHeaders(500, response.length());
-            OutputStream os = t.getResponseBody();
-
-            os.write(response.getBytes());
-
-            os.close();
-
-            System.out.println("> Sent response to " + t.getRemoteAddress().toString());
-        }
     }
 
-    private void sendRequest (WorkerNode workerNode) {
+    private void sendRequest(WorkerNode workerNode) {
         String workerIp = workerNode.getInstance().getPublicIpAddress();
         String queryUrlString = "http://" + workerIp + ":8000/healthcheck";
         int failedRequests = 0;
@@ -232,7 +234,7 @@ public class LoadBalancer {
         }
     }
 
-    private void performHealthCheck () {
+    private void performHealthCheck() {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
         Runnable healthCheckTask = new Runnable() {
