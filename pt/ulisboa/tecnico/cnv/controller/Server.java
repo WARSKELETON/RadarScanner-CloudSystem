@@ -182,7 +182,12 @@ public class Server {
     }
 
     public static void requestScaleUp() {
-        autoScaler.createWorkerNodes(1);
+        Runnable task = new Runnable() {
+            public void run () {
+                autoScaler.createWorkerNodes(1);
+            }
+        };
+        new Thread(task).start();
     }
 
     public static int getNumberOfWorkerNodes() {
