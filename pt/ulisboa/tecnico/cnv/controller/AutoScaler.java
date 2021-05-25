@@ -194,8 +194,8 @@ public class AutoScaler {
         System.out.println("numberOfWorkers: " + numberOfWorkers);
         System.out.println("averageCPUUtilization: " + averageCPUUtilization);
 
-        // We only want to scale up when above our max threshold based on our metrics, to avoid reacting to spikes
-        if (averageCurrentWorkload > WORKLOAD_MAX_THRESHOLD && numberOfWorkers < MAX_CAPACITY) {
+        // We only want to scale up when above our max workload and cpu threshold, to avoid reacting to spikes on either metric
+        if (averageCPUUtilization > CPU_MAX_THRESHOLD && averageCurrentWorkload > WORKLOAD_MAX_THRESHOLD && numberOfWorkers < MAX_CAPACITY) {
             System.out.println("Scaling up from " + numberOfWorkers + " to " + (numberOfWorkers + SCALING_STEP_UP));
             createWorkerNodes(SCALING_STEP_UP);
         } else if (averageCPUUtilization < CPU_MIN_THRESHOLD && averageCurrentWorkload < WORKLOAD_MIN_THRESHOLD && numberOfWorkers > MIN_CAPACITY) {

@@ -194,12 +194,14 @@ public class Server {
             requests = mss.getRequestsWithSimilarStrategyAndEqualMapSize(request.getStrategy(), request.getWidth(), request.getHeight(), request.getViewportArea());
             if (requests != null && !requests.isEmpty()) {
                 System.out.println("Got match with similar strategy and equal map size!");
-                return mss.getRequestWithSimilarViewportArea(requests, request.getViewportArea());
+                List<Request> lowestViewportAreaDiff = mss.getRequestWithSimilarViewportArea(requests, request.getViewportArea());
+                return mss.getWeightedAverageRequest(lowestViewportAreaDiff, request);
             } else {
                 requests = mss.getRequestsWithEqualMapSize(request.getWidth(), request.getHeight(), request.getViewportArea());
                 if (requests != null && !requests.isEmpty()) {
                     System.out.println("Got match with equal map size!");
-                    return mss.getRequestWithSimilarViewportArea(requests, request.getViewportArea());
+                    List<Request> lowestViewportAreaDiff = mss.getRequestWithSimilarViewportArea(requests, request.getViewportArea());
+                    return mss.getWeightedAverageRequest(lowestViewportAreaDiff, request);
                 } else {
                     System.out.println("Got no match! Returning max workload");
                     return null;

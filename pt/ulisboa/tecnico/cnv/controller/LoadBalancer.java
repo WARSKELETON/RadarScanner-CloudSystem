@@ -47,8 +47,6 @@ public class LoadBalancer {
     public static final int MAX_REQUESTS = 3;
     private static final String LOCAL_IP = "0.0.0.0";
 
-    // TODO heath check
-
     public LoadBalancer () {
         HttpServer server = null;
         try {

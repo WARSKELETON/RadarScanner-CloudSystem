@@ -27,6 +27,7 @@ public class Request {
     }
 
     public Request(String query, String[] args){
+        this.isComplete = false;
         for (int i = 0; i < args.length; i++){
             final String[] params = args[i].split("=");
             switch (params[0]) {

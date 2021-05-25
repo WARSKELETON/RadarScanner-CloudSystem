@@ -152,18 +152,58 @@ public class MSS {
         return mapper.parallelScan(Request.class, scanExpression, 16);
     }
 
-    public static Request getRequestWithSimilarViewportArea(List<Request> requests, long viewportArea) {
+    public static Request getWeightedAverageRequest(List<Request> requests, Request originalRequest) {
+        System.out.println("MSS is calculating weighted average...");
+        double distancesSum = 0;
+        double sum = 0;
+        Request mostSimilarRequest = new Request();
+        mostSimilarRequest.setId("noid");
+        double originalDistance = getStartingPointDistanceToUpperLeftCorner(originalRequest);
+
+        for (Request request : requests) {
+            double distance = getStartingPointDistanceToUpperLeftCorner(request);
+            double requestWeight = Math.abs(originalDistance - distance);
+            distancesSum += requestWeight;
+            sum += requestWeight * request.getNumberInstructions();
+            System.out.println("Request with viewport area of " + request.getViewportArea() + " with distance " + distance + " got weight " + requestWeight + " . Sum is at " + sum + " and weights at " + distancesSum);
+        }
+
+        mostSimilarRequest.setNumberInstructions((long)Math.ceil(sum / distancesSum));
+
+        System.out.println("Final result of number of instructions is " + mostSimilarRequest.getNumberInstructions());
+
+        return mostSimilarRequest;
+    }
+
+    public static List<Request> getRequestWithSimilarViewportArea(List<Request> requests, long viewportArea) {
         long smallestDifference = Long.MAX_VALUE;
+        List<Request> similarRequests = new ArrayList<>();
         Request mostSimilarRequest = null;
 
-        for (Request request: requests) {
+        for (Request request : requests) {
             long difference = Math.abs(request.getViewportArea() - viewportArea);
             if (difference < smallestDifference) {
                 smallestDifference = difference;
                 mostSimilarRequest = request;
             }
         }
-        return mostSimilarRequest;
+
+        if (mostSimilarRequest != null) {
+            for (Request request : requests) {
+                if (mostSimilarRequest.getViewportArea() == request.getViewportArea()) {
+                    similarRequests.add(request);
+                }
+            }
+        }
+
+        return similarRequests;
+    }
+
+    private static double getStartingPointDistanceToUpperLeftCorner(Request request) {
+        int requestXS = request.getStartingPointX() - request.getViewportTopLeftX();
+        int requestYS = request.getStartingPointY() - request.getViewportTopLeftY();
+
+        return Math.sqrt(Math.pow(requestYS, 2) + Math.pow(requestYS, 2));
     }
 
     private static List<Long> getUpperAndLowerViewportAreaBound(long viewportArea) {
