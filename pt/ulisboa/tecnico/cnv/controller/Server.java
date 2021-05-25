@@ -108,7 +108,7 @@ public class Server {
 
         synchronized (workerLock) {
             for (WorkerNode worker : workers.values()) {
-                if (laziestWorkerNode == null || (worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload() && worker.isHealthy())) {
+                if (laziestWorkerNode == null || (worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload() && laziestWorkerNode.getInstance().getState().getName().equals("running") && worker.isHealthy())) {
                     laziestWorkerNode = worker;
                 }
             }
