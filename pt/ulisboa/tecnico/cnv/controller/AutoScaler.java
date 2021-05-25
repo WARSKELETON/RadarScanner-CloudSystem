@@ -215,7 +215,7 @@ public class AutoScaler {
             System.out.println("Scaling up from " + numberOfWorkers + " to " + (numberOfWorkers + SCALING_STEP_UP));
             createWorkerNodes(SCALING_STEP_UP);
         } else if (averageCPUUtilization < CPU_MIN_THRESHOLD && averageCurrentWorkload < WORKLOAD_MIN_THRESHOLD && numberOfWorkers > MIN_CAPACITY) {
-            System.out.println("Scaling down from " + numberOfWorkers + " to " + (numberOfWorkers + SCALING_STEP_DOWN));
+            System.out.println("Scaling down from " + numberOfWorkers + " to " + (numberOfWorkers - SCALING_STEP_DOWN));
             terminateWorkerNodes(SCALING_STEP_DOWN);
         }
     }

@@ -84,7 +84,6 @@ public class LoadBalancer {
 
             final String[] params = estimateQueryRequest.split("&");
 
-            System.out.println("Workload");
             // Estimate request cost
             Request request = Server.getWorkloadEstimate(new Request(estimateQueryRequest, params));
             String query = originalQuery;
@@ -105,8 +104,8 @@ public class LoadBalancer {
             }
 
             if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD) {
-                System.out.println("Scaling up since laziest worker node will exceed the MAX_WORKLOAD supported.");
-                //Server.requestScaleUp();
+                System.out.println("Scaling up since laziest worker node will exceed the max workload supported.");
+                Server.requestScaleUp();
             }
 
             String queryUrlString = "http://" + workerIp + ":8000/scan?" + query;
@@ -179,19 +178,19 @@ public class LoadBalancer {
     }
 
     private static WorkerNode checkWorkerNodeAvailability(WorkerNode worker) {
+        // Guarantee that the laziest worker node is actually available
         while (worker == null) {
             System.out.println("LoadBalancer found no available worker nodes requesting urgent scale up...");
             Server.requestScaleUp();
             try {
-                System.out.println("LoadBalancer Starting to sleep...");
                 Thread.sleep(GRACE_PERIOD);
-                System.out.println("LoadBalancer fucking woke up...");
             } catch (InterruptedException e) {
                 System.out.println("LoadBalancer caught exception");
             }
             worker = Server.getLaziestWorkerNode();
         }
 
+        System.out.println("LoadBalancer found available worker nodes with ID " + worker.getInstance().getInstanceId());
         return worker;
     }
 
