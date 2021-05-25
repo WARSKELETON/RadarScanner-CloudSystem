@@ -160,15 +160,16 @@ public class MSS {
         mostSimilarRequest.setId("noid");
         double originalDistance = getStartingPointDistanceToUpperLeftCorner(originalRequest);
 
+        // Calculate weighted average with requests closer to the original with more weight
         for (Request request : requests) {
             double distance = getStartingPointDistanceToUpperLeftCorner(request);
-            double requestWeight = Math.abs(originalDistance - distance);
+            double requestWeight = 1 / Math.abs(originalDistance - distance);
             distancesSum += requestWeight;
             sum += requestWeight * request.getNumberInstructions();
             System.out.println("Request with viewport area of " + request.getViewportArea() + " with distance " + distance + " got weight " + requestWeight + " . Sum is at " + sum + " and weights at " + distancesSum);
         }
 
-        mostSimilarRequest.setNumberInstructions((long)Math.ceil(sum / distancesSum));
+        mostSimilarRequest.setNumberInstructions((long) Math.ceil(sum / distancesSum));
 
         System.out.println("Final result of number of instructions is " + mostSimilarRequest.getNumberInstructions());
 
