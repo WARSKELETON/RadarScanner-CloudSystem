@@ -159,6 +159,7 @@ public class MSS {
         Request mostSimilarRequest = new Request();
         mostSimilarRequest.setId("noid");
         double originalDistance = getStartingPointDistanceToUpperLeftCorner(originalRequest);
+        System.out.println("Original request with distance to upper left corner of " + originalDistance);
 
         // Calculate weighted average with requests closer to the original with more weight
         for (Request request : requests) {

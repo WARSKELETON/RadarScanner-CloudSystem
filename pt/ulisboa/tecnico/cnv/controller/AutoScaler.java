@@ -174,6 +174,7 @@ public class AutoScaler {
     }
 
     public void monitorWorkerNodes() {
+        System.out.println("Autoscaler monitoring nodes...");
         terminateUnhealthyNodes();
         Server.updateCurrentCPUUsage();
 
@@ -186,12 +187,11 @@ public class AutoScaler {
             totalCurrentWorkload += workerNode.getCurrentWorkload();
         }
 
-        System.out.println("Scaling up from " + numberOfWorkers + " to " + (numberOfWorkers + 1));
         double averageCPUUtilization = totalCPUUtilization / numberOfWorkers;
         double averageCurrentWorkload = totalCurrentWorkload / numberOfWorkers;
 
-        System.out.println("averageCurrentWorkload: " + averageCurrentWorkload);
         System.out.println("numberOfWorkers: " + numberOfWorkers);
+        System.out.println("averageCurrentWorkload: " + averageCurrentWorkload);
         System.out.println("averageCPUUtilization: " + averageCPUUtilization);
 
         // We only want to scale up when above our max workload and cpu threshold, to avoid reacting to spikes on either metric
