@@ -170,7 +170,7 @@ public class MSS {
                 mostSimilarRequest.setNumberInstructions(request.getNumberInstructions());
                 return mostSimilarRequest;
             }
-            
+
             double requestWeight = 1 / Math.abs(originalDistance - distance);
             distancesSum += requestWeight;
             sum += requestWeight * request.getNumberInstructions();

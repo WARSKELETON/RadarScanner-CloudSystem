@@ -29,11 +29,11 @@ import java.util.HashSet;
 
 public class AutoScaler {
 
-    public final long MAX_WORKLOAD = 50000000;
+    public final long MAX_WORKLOAD = 500000000;
     public final double WORKLOAD_MAX_THRESHOLD = MAX_WORKLOAD * 0.70;
     public final double WORKLOAD_MIN_THRESHOLD = MAX_WORKLOAD * 0.30;
-    public final double CPU_MAX_THRESHOLD = 0.7;
-    public final double CPU_MIN_THRESHOLD = 0.30;
+    public final double CPU_MAX_THRESHOLD = 70.0;
+    public final double CPU_MIN_THRESHOLD = 30.0;
 
     public final int SCALING_STEP_UP = 1;
     public final int SCALING_STEP_DOWN = 1;
@@ -41,7 +41,7 @@ public class AutoScaler {
     public final int SCALE_PERIOD = 60000;
     public final int GRACE_PERIOD = 60000;
     public final int MIN_CAPACITY = 1;
-    public final int MAX_CAPACITY = 10;
+    public final int MAX_CAPACITY = 3;
 
     private final String AMI_ID = "ami-0369bb1dca4043329";
     private final String KEY_NAME = "CNV-lab-AWS";
@@ -56,8 +56,6 @@ public class AutoScaler {
             initAWSClient();
             this.myInstanceId = EC2MetadataUtils.getInstanceId();
             initWorkerNodes();
-
-            // TODO health check
 
             while (true) {
                 Thread.sleep(SCALE_PERIOD);
@@ -212,14 +210,21 @@ public class AutoScaler {
         }
     }
 
-    public void terminateWorkerNodes(int numberOfRequiredWorkers) {
-        int futureNumberOfWorkers = Server.getNumberOfWorkers() - numberOfRequiredWorkers;
+    public void terminateWorkerNodes(int numberOfWorkersToTerminate) {
+        int futureNumberOfWorkers = Server.getNumberOfWorkers() - numberOfWorkersToTerminate;
 
         if (futureNumberOfWorkers < MIN_CAPACITY) {
-            numberOfRequiredWorkers = MIN_CAPACITY - futureNumberOfWorkers;
-            if (numberOfRequiredWorkers == 0) return;
+            numberOfWorkersToTerminate = MIN_CAPACITY - futureNumberOfWorkers;
+            if (numberOfWorkersToTerminate == 0) return;
 
-            System.out.println("Only terminating " + numberOfRequiredWorkers + " worker nodes because MAX_CAPACITY was reached.");
+            System.out.println("Only terminating " + numberOfWorkersToTerminate + " worker nodes because MAX_CAPACITY was reached.");
+        }
+
+        for (int i = 0; i < numberOfWorkersToTerminate; i++) {
+            WorkerNode workerNode = Server.getLaziestWorkerNode();
+            if (workerNode != null) {
+                terminateWorkerNode(workerNode.getInstance().getInstanceId());
+            }
         }
 
         System.out.println("Instance termination...");
