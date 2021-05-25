@@ -15,7 +15,7 @@ public class Request {
     private int viewportTopLeftY;
     private int viewportBottomRightX;
     private int viewportBottomRightY;
-    private int viewportArea;
+    private long viewportArea;
     private int startingPointX;
     private int startingPointY;
     private String strategy;
@@ -98,7 +98,7 @@ public class Request {
     public int getViewportBottomRightY() { return viewportBottomRightY; }
 
     @DynamoDBAttribute(attributeName = "viewportArea")
-    public int getViewportArea () {
+    public long getViewportArea () {
         return viewportArea;
     }
 
@@ -152,7 +152,7 @@ public class Request {
         this.viewportBottomRightY = viewportBottomRightY;
     }
 
-    public void setViewportArea (int viewportArea) {
+    public void setViewportArea (long viewportArea) {
         this.viewportArea = viewportArea;
     }
 

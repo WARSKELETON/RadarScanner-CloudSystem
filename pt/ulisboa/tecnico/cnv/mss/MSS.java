@@ -36,6 +36,12 @@ import com.amazonaws.services.dynamodbv2.model.TableDescription;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 
 public class MSS {
+    private static final long VIEWPORT_AREA_64 = 4096;
+    private static final long VIEWPORT_AREA_128 = 16384;
+    private static final long VIEWPORT_AREA_256 = 65536;
+    private static final long VIEWPORT_AREA_512 = 262144;
+    private static final long VIEWPORT_AREA_1024 = 1048576;
+    private static final long VIEWPORT_AREA_2048 = 4194304;
 
     static AmazonDynamoDB dynamoDB;
     public static String tableName = "scan-requests-table";
@@ -102,24 +108,90 @@ public class MSS {
         return mapper.query(Request.class, queryExpression);
     }
 
-    public static List<Request> getSimilarRequests(String strategy, int width, int height, int viewportArea) {
+    public static List<Request> getRequestsWithSimilarStrategyAndEqualMapSize(String strategy, int width, int height, long viewportArea) {
+        List<Long> viewportAreaBounds = getUpperAndLowerViewportAreaBound(viewportArea);
+
         Map<String, AttributeValue> attributeValues = new HashMap<>();
-        attributeValues.put(":strategy", new AttributeValue().withS(strategy));
         attributeValues.put(":width", new AttributeValue().withN(String.valueOf(width)));
         attributeValues.put(":height", new AttributeValue().withN(String.valueOf(height)));
-        //attributeValues.put(":viewportArea", new AttributeValue().withN(viewportArea));
+        attributeValues.put(":viewportAreaLowerBound", new AttributeValue().withN(String.valueOf(viewportAreaBounds.get(0))));
+        attributeValues.put(":viewportAreaUpperBound", new AttributeValue().withN(String.valueOf(viewportAreaBounds.get(1))));
+        attributeValues.put(":mainStrategy", new AttributeValue().withS(strategy));
+
+        if (strategy.equals("GRID_SCAN")) {
+            attributeValues.put(":secondaryStrategy", new AttributeValue().withS(strategy));
+        } else {
+            if (strategy.equals("PROGRESSIVE_SCAN")) attributeValues.put(":secondaryStrategy", new AttributeValue().withS("GREEDY_RANGE_SCAN"));
+            if (strategy.equals("GREEDY_RANGE_SCAN")) attributeValues.put(":secondaryStrategy", new AttributeValue().withS("PROGRESSIVE_SCAN"));
+        }
 
         Request partitionKey = new Request();
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
-                .withFilterExpression("strategy = :strategy and width = :width and height = :height")
+                .withFilterExpression("(strategy = :mainStrategy or strategy = :secondaryStrategy) and width = :width and height = :height and viewportArea between :viewportAreaLowerBound and :viewportAreaUpperBound")
                 .withExpressionAttributeValues(attributeValues);
 
         return mapper.parallelScan(Request.class, scanExpression, 16);
     }
 
+    public static List<Request> getRequestsWithEqualMapSize(int width, int height, long viewportArea) {
+        List<Long> viewportAreaBounds = getUpperAndLowerViewportAreaBound(viewportArea);
+
+        Map<String, AttributeValue> attributeValues = new HashMap<>();
+        attributeValues.put(":width", new AttributeValue().withN(String.valueOf(width)));
+        attributeValues.put(":height", new AttributeValue().withN(String.valueOf(height)));
+        attributeValues.put(":viewportAreaLowerBound", new AttributeValue().withN(String.valueOf(viewportAreaBounds.get(0))));
+        attributeValues.put(":viewportAreaUpperBound", new AttributeValue().withN(String.valueOf(viewportAreaBounds.get(1))));
+
+        Request partitionKey = new Request();
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+                .withFilterExpression("width = :width and height = :height and viewportArea between :viewportAreaLowerBound and :viewportAreaUpperBound")
+                .withExpressionAttributeValues(attributeValues);
+
+        return mapper.parallelScan(Request.class, scanExpression, 16);
+    }
+
+    public static Request getRequestWithSimilarViewportArea(List<Request> requests, long viewportArea) {
+        long smallestDifference = Long.MAX_VALUE;
+        Request mostSimilarRequest = null;
+
+        for (Request request: requests) {
+            long difference = Math.abs(request.getViewportArea() - viewportArea);
+            if (difference < smallestDifference) {
+                smallestDifference = difference;
+                mostSimilarRequest = request;
+            }
+        }
+        return mostSimilarRequest;
+    }
+
+    private static List<Long> getUpperAndLowerViewportAreaBound(long viewportArea) {
+        List<Long> bounds = new ArrayList<>();
+
+        if (viewportArea <= VIEWPORT_AREA_64) {
+            bounds.add((long) 0);
+            bounds.add(VIEWPORT_AREA_64);
+        } else if (viewportArea > VIEWPORT_AREA_64 && viewportArea <= VIEWPORT_AREA_128) {
+            bounds.add(VIEWPORT_AREA_64);
+            bounds.add(VIEWPORT_AREA_128);
+        } else if (viewportArea > VIEWPORT_AREA_128 && viewportArea <= VIEWPORT_AREA_256) {
+            bounds.add(VIEWPORT_AREA_128);
+            bounds.add(VIEWPORT_AREA_256);
+        } else if (viewportArea > VIEWPORT_AREA_256 && viewportArea <= VIEWPORT_AREA_512) {
+            bounds.add(VIEWPORT_AREA_256);
+            bounds.add(VIEWPORT_AREA_512);
+        } else if (viewportArea > VIEWPORT_AREA_512 && viewportArea <= VIEWPORT_AREA_1024) {
+            bounds.add(VIEWPORT_AREA_512);
+            bounds.add(VIEWPORT_AREA_1024);
+        } else if (viewportArea > VIEWPORT_AREA_1024 && viewportArea <= VIEWPORT_AREA_2048) {
+            bounds.add(VIEWPORT_AREA_1024);
+            bounds.add(VIEWPORT_AREA_2048);
+        }
+        return bounds;
+    }
+
     public static void saveRequest(Request request) {
         mapper.save(request);
     }
-
 }

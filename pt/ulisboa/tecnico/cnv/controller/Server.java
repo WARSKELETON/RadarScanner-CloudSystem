@@ -184,17 +184,26 @@ public class Server {
     }
 
     public static Request getWorkloadEstimate(Request request) {
-        System.out.println("Estimating");
+        System.out.println("Estimating workload...");
         List<Request> requests = mss.getRequestById(request.getId());
 
         if (requests != null && !requests.isEmpty()) {
+            System.out.println("Got exact match!");
             return requests.get(0);
         } else {
-            requests = mss.getSimilarRequests(request.getStrategy(), request.getWidth(), request.getHeight(), request.getViewportArea());
+            requests = mss.getRequestsWithSimilarStrategyAndEqualMapSize(request.getStrategy(), request.getWidth(), request.getHeight(), request.getViewportArea());
             if (requests != null && !requests.isEmpty()) {
-                return requests.get(0);
+                System.out.println("Got match with similar strategy and equal map size!");
+                return mss.getRequestWithSimilarViewportArea(requests, request.getViewportArea());
             } else {
-                return null;
+                requests = mss.getRequestsWithEqualMapSize(request.getWidth(), request.getHeight(), request.getViewportArea());
+                if (requests != null && !requests.isEmpty()) {
+                    System.out.println("Got match with equal map size!");
+                    return mss.getRequestWithSimilarViewportArea(requests, request.getViewportArea());
+                } else {
+                    System.out.println("Got no match! Returning max workload");
+                    return null;
+                }
             }
         }
     }

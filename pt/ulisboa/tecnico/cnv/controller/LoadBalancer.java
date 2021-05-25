@@ -16,10 +16,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -35,6 +37,10 @@ import pt.ulisboa.tecnico.cnv.server.WebServer;
 import javax.imageio.ImageIO;
 
 public class LoadBalancer {
+
+    public static final int HEALTH_CHECK_PERIOD = 30000;
+    public static final int HEALTH_CHECK_TIMEOUT = 10000;
+    public static final int HEALTH_CHECK_THESHOLD = 2;
 
     public static final long MAX_WORKLOAD = 50000000;
     public static final int REQUEST_TIMEOUT = 300000;
@@ -60,6 +66,8 @@ public class LoadBalancer {
         server.start();
 
         System.out.println(server.getAddress().toString());
+
+        performHealthCheck();
     }
 
     static class MyScanHandler implements HttpHandler {
@@ -181,7 +189,7 @@ public class LoadBalancer {
             }
         }
 
-        private void sendInternalServerErrorResponse(final HttpExchange t) throws IOException {
+        private void sendInternalServerErrorResponse (final HttpExchange t) throws IOException {
             String response = "I am sorry to inform, there is no server available. Please try later...\n";
 
             t.sendResponseHeaders(500, response.length());
@@ -193,5 +201,56 @@ public class LoadBalancer {
 
             System.out.println("> Sent response to " + t.getRemoteAddress().toString());
         }
+    }
+
+    private void sendRequest (WorkerNode workerNode) {
+        String workerIp = workerNode.getInstance().getPublicIpAddress();
+        String queryUrlString = "http://" + workerIp + ":8000/healthcheck";
+        int failedRequests = 0;
+
+        while (true) {
+            try {
+                URL url = new URL(queryUrlString);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setConnectTimeout(HEALTH_CHECK_TIMEOUT);
+                System.out.println("Load Balancer performing healthcheck to worker node with IP address " + workerIp);
+
+                int status = connection.getResponseCode();
+                if (status == HttpURLConnection.HTTP_OK) {
+                    System.out.println("Worker node with IP address " + workerIp + " is healthy.");
+                    break;
+                }
+                failedRequests++;
+            } catch (Exception e) {
+                failedRequests++;
+            }
+
+            if (failedRequests == HEALTH_CHECK_THESHOLD) {
+                workerNode.setHealthy(false);
+                System.out.println("Worker node with IP address " + workerIp + " is unhealthy.");
+                break;
+            }
+        }
+    }
+
+    private void performHealthCheck () {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+        Runnable healthCheckTask = new Runnable() {
+            public void run () {
+                List<WorkerNode> workers = Server.getWorkers();
+                for (WorkerNode workerNode : workers) {
+                    final WorkerNode worker = workerNode;
+                    Runnable sendRequestTask = new Runnable() {
+                        public void run () {
+                            sendRequest(worker);
+                        }
+                    };
+                    new Thread(sendRequestTask).start();
+                }
+            }
+        };
+        executor.scheduleWithFixedDelay(healthCheckTask, 0, HEALTH_CHECK_PERIOD, TimeUnit.MILLISECONDS);
     }
 }
