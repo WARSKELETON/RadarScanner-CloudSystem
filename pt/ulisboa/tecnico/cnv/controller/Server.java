@@ -74,6 +74,8 @@ public class Server {
         loadBalancer = new LoadBalancer();
         autoScaler = new AutoScaler();
 
+        System.out.println("Controller initialized all modules.");
+
         while (true) {
         }
     }

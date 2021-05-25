@@ -23,6 +23,11 @@ import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
 import com.amazonaws.util.EC2MetadataUtils;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.lang.InterruptedException;
+
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
@@ -52,16 +57,19 @@ public class AutoScaler {
     private AmazonEC2 ec2;
 
     public AutoScaler() {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+        Runnable monitorTask = new Runnable() {
+            public void run () {
+                monitorWorkerNodes();
+            }
+        };
+
         try {
             initAWSClient();
             this.myInstanceId = EC2MetadataUtils.getInstanceId();
             initWorkerNodes();
-
-            while (true) {
-                Thread.sleep(SCALE_PERIOD);
-                monitorWorkerNodes();
-            }
-
+            executor.scheduleWithFixedDelay(monitorTask, 0, SCALE_PERIOD, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
             System.err.println("Caught exception");
         }
