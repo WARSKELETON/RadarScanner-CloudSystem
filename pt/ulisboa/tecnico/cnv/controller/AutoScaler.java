@@ -230,7 +230,7 @@ public class AutoScaler {
 
     private void printStatusToFile(int numberOfWorkers, double averageCurrentWorkload, double averageCPUUtilization) {
         try {
-            String outputStr = "numberOfWorkers: " + numberOfWorkers + "\n averageCurrentWorkload: " + averageCurrentWorkload + "\n averageCPUUtilization: " + averageCPUUtilization;
+            String outputStr = "numberOfWorkers: " + numberOfWorkers + "\n averageCurrentWorkload: " + averageCurrentWorkload + "\n averageCPUUtilization: " + averageCPUUtilization + "\n";
             FileOutputStream outputStream = new FileOutputStream("scaler.txt", true);
             byte[] strToBytes = outputStr.getBytes();
             outputStream.write(strToBytes);
