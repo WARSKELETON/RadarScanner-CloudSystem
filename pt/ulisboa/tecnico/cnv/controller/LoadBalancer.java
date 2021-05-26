@@ -40,7 +40,7 @@ import javax.imageio.ImageIO;
 
 public class LoadBalancer {
 
-    public static final int CACHE_MAX_SIZE = 2;
+    public static final int CACHE_MAX_SIZE = 100;
 
     public static final int HEALTH_CHECK_PERIOD = 30000;
     public static final int HEALTH_CHECK_TIMEOUT = 10000;
