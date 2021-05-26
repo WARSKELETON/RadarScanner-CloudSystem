@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.Date;
 import java.lang.InterruptedException;
 
 import com.sun.net.httpserver.Headers;
@@ -39,6 +40,8 @@ import javax.imageio.ImageIO;
 
 public class LoadBalancer {
 
+    public static final int CACHE_MAX_SIZE = 100;
+
     public static final int HEALTH_CHECK_PERIOD = 30000;
     public static final int HEALTH_CHECK_TIMEOUT = 10000;
     public static final int HEALTH_CHECK_THESHOLD = 2;
@@ -48,6 +51,9 @@ public class LoadBalancer {
     public static final int GRACE_PERIOD = 60000;
     public static final int MAX_REQUESTS = 3;
     private static final String LOCAL_IP = "0.0.0.0";
+
+    // Query -> Request
+    private static Map<String, Request> requestsCache = new ConcurrentHashMap<>();
 
     public LoadBalancer () {
         HttpServer server = null;
@@ -86,7 +92,7 @@ public class LoadBalancer {
             final String[] params = estimateQueryRequest.split("&");
 
             // Estimate request cost
-            Request request = Server.getWorkloadEstimate(new Request(estimateQueryRequest, params));
+            Request request = getWorkloadEstimate(new Request(estimateQueryRequest, params));
             String query = originalQuery;
 
             if (request != null) {
@@ -247,5 +253,46 @@ public class LoadBalancer {
         };
         // We are hitting the /healthcheck endpoint in a schedule manner
         executor.scheduleWithFixedDelay(healthCheckTask, 0, HEALTH_CHECK_PERIOD, TimeUnit.MILLISECONDS);
+    }
+
+    private static Request getWorkloadEstimate(Request request) {
+        Request requestInCache = requestsCache.get(request.getId());
+
+        if (requestInCache != null) {
+            System.out.println("Cache hit...");
+            requestInCache.setLastUsedTs(new Date());
+            return requestInCache;
+        }
+
+        System.out.println("Cache miss...");
+        Request mssRequest = Server.getWorkloadEstimate(request);
+
+        if (mssRequest.getId().equals(request.getId())) {
+            addRequestToCache(mssRequest);
+        }
+
+        return mssRequest;
+    }
+
+    private static void addRequestToCache(Request request) {
+        if (requestsCache.size() == CACHE_MAX_SIZE) {
+            Request lruRequest = null;
+            System.out.println("Remove least recently used request in cache...");
+
+            for (String id : requestsCache.keySet()) {
+                Request requestInCache = requestsCache.get(id);
+
+                if (lruRequest == null || requestInCache.getLastUsedTs().before(lruRequest.getLastUsedTs())) {
+                    lruRequest = requestInCache;
+                }
+            }
+
+            System.out.println("Removing least recently used request in cache with date " + lruRequest.getLastUsedTs().toString());
+            requestsCache.remove(lruRequest.getId());
+        }
+
+        System.out.println("Added request with ID " + request.getId() + " to cache");
+        request.setLastUsedTs(new Date());
+        requestsCache.put(request.getId(), request);
     }
 }

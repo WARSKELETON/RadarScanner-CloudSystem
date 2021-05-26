@@ -5,6 +5,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.util.Date;
+
 @DynamoDBTable(tableName = "scan-requests-table")
 public class Request {
 
@@ -22,6 +24,7 @@ public class Request {
     private String image;
     private long numberInstructions;
     private boolean isComplete;
+    private Date lastUsedTs;
 
     public Request(){
     }
@@ -125,6 +128,11 @@ public class Request {
         return isComplete;
     }
 
+    @DynamoDBIgnore
+    public Date getLastUsedTs() {
+        return lastUsedTs;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -179,6 +187,10 @@ public class Request {
 
     public void setComplete(boolean complete) {
         isComplete = complete;
+    }
+
+    public void setLastUsedTs(Date lastUsedTs) {
+        this.lastUsedTs = lastUsedTs;
     }
 
     @Override
