@@ -80,11 +80,11 @@ public class Server {
         }
     }
 
-    public static List<WorkerNode> getWorkers() {
+    public synchronized static List<WorkerNode> getWorkers() {
         return new ArrayList<>(workers.values());
     }
 
-    public static int getNumberOfWorkers() {
+    public synchronized static int getNumberOfWorkers() {
         return workers.size();
     }
 
@@ -192,7 +192,7 @@ public class Server {
         new Thread(task).start();
     }
 
-    public static int getNumberOfWorkerNodes() {
+    public synchronized static int getNumberOfWorkerNodes() {
         return workers.values().size();
     }
 
