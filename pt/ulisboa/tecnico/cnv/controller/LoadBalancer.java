@@ -275,6 +275,7 @@ public class LoadBalancer {
     }
 
     private static void addRequestToCache(Request request) {
+        System.out.println("Cache with size " + requestsCache.size());
         if (requestsCache.size() == CACHE_MAX_SIZE) {
             Request lruRequest = null;
             System.out.println("Remove least recently used request in cache...");
