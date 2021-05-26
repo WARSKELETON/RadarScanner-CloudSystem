@@ -77,6 +77,7 @@ public class LoadBalancer {
 
             final String originalQuery = t.getRequestURI().getQuery();
             String estimateQueryRequest = originalQuery + "&c=false";
+            // Get the laziest most available worker node
             WorkerNode worker = checkWorkerNodeAvailability(Server.getLaziestWorkerNode());
             String workerIp = worker.getInstance().getPublicIpAddress();
 
@@ -163,6 +164,7 @@ public class LoadBalancer {
                     worker.decrementCurrentWorkload(estimateWorkload);
                 }
 
+                // After max requests consecutive fails the worker node is considered unhealthy
                 if (failedRequests >= MAX_REQUESTS) {
                     worker.setHealthy(false);
                     failedRequests = 0;
@@ -217,6 +219,7 @@ public class LoadBalancer {
                 failedRequests++;
             }
 
+            // After max health check threshold fails the worker node is considered unhealthy
             if (failedRequests == HEALTH_CHECK_THESHOLD) {
                 workerNode.setHealthy(false);
                 System.out.println("Worker node with IP address " + workerIp + " is unhealthy.");
@@ -242,6 +245,7 @@ public class LoadBalancer {
                 }
             }
         };
+        // We are hitting the /healthcheck endpoint in a schedule manner
         executor.scheduleWithFixedDelay(healthCheckTask, 0, HEALTH_CHECK_PERIOD, TimeUnit.MILLISECONDS);
     }
 }

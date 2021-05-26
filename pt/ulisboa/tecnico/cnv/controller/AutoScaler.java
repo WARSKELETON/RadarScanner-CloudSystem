@@ -48,7 +48,7 @@ public class AutoScaler {
     public final int MIN_CAPACITY = 1;
     public final int MAX_CAPACITY = 3;
 
-    private final String AMI_ID = "ami-0369bb1dca4043329";
+    private final String AMI_ID = "ami-0bccbce17bd4d56d1";
     private final String KEY_NAME = "CNV-lab-AWS";
     private final String SECURITY_GROUP = "CNV-SSH-HTTP";
 
@@ -69,6 +69,7 @@ public class AutoScaler {
             initAWSClient();
             this.myInstanceId = EC2MetadataUtils.getInstanceId();
             initWorkerNodes();
+            // Start monitoring nodes in a schedule manner
             executor.scheduleWithFixedDelay(monitorTask, 0, SCALE_PERIOD, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
             System.err.println("Caught exception");
@@ -179,6 +180,7 @@ public class AutoScaler {
         }
     }
 
+    // Method used to correct any underestimations
     private void correctDrift() {
         System.out.println("Autoscaler checking if there is a negative drift...");
         int drift = Server.getNumberOfWorkerNodes() - MIN_CAPACITY;
