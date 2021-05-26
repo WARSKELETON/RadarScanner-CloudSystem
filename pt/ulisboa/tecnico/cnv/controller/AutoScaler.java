@@ -27,6 +27,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.lang.InterruptedException;
+import java.io.IOException;
+
+import java.io.OutputStream;
+import java.io.FileOutputStream;
 
 import java.util.List;
 import java.util.Set;
@@ -225,11 +229,15 @@ public class AutoScaler {
     }
 
     private void printStatusToFile(int numberOfWorkers, double averageCurrentWorkload, double averageCPUUtilization) {
-        String outputStr = "numberOfWorkers: " + numberOfWorkers + "\n" +"averageCurrentWorkload: " + averageCurrentWorkload + "\n" +"averageCPUUtilization: " + averageCPUUtilization);
-        FileOutputStream outputStream = new FileOutputStream("requests.txt", true);
-        byte[] strToBytes = str.getBytes();
-        outputStream.write(strToBytes);
-        outputStream.close();
+        try {
+            String outputStr = "numberOfWorkers: " + numberOfWorkers + "\n averageCurrentWorkload: " + averageCurrentWorkload + "\n averageCPUUtilization: " + averageCPUUtilization;
+            FileOutputStream outputStream = new FileOutputStream("requests.txt", true);
+            byte[] strToBytes = outputStr.getBytes();
+            outputStream.write(strToBytes);
+            outputStream.close();
+        } catch (IOException exception) {
+            System.err.println("Caught IOException when writing to file");
+        }
     }
 
     private void terminateUnhealthyNodes() {
