@@ -90,7 +90,13 @@ public class Server {
     }
 
     public synchronized static List<WorkerNode> getWorkers() {
-        return new ArrayList<>(workers.values());
+        List<WorkerNode> workerNodeList = new ArrayList<>();
+        for (WorkerNode worker : workers.values()) {
+            if (worker.getInstance().getState().getName().equals("running") && worker.isHealthy()) {
+                workerNodeList.add(worker);
+            }
+        }
+        return workerNodeList;
     }
 
     public synchronized static int getNumberOfWorkers() {
