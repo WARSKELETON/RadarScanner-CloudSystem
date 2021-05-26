@@ -64,6 +64,7 @@ public class Server {
     private static AutoScaler autoScaler;
     private static MSS mss;
 
+    private static boolean scaling = false;
     private static final Object workerLock = new Object();
     private static Map<String, WorkerNode> workers = new ConcurrentHashMap<>();
 
@@ -78,6 +79,14 @@ public class Server {
 
         while (true) {
         }
+    }
+
+    public synchronized static boolean isScaling() {
+        return scaling;
+    }
+
+    public synchronized static void setScaling(boolean scaling) {
+        Server.scaling = scaling;
     }
 
     public synchronized static List<WorkerNode> getWorkers() {
@@ -187,9 +196,14 @@ public class Server {
         Runnable task = new Runnable() {
             public void run () {
                 autoScaler.createWorkerNodes(1);
+                setScaling(false);
             }
         };
-        new Thread(task).start();
+
+        if (!isScaling()) {
+            setScaling(true);
+            new Thread(task).start();
+        }
     }
 
     public synchronized static int getNumberOfWorkerNodes() {
