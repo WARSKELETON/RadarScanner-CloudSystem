@@ -49,7 +49,7 @@ public class AutoScaler {
 
     public final int SCALE_PERIOD = 60000;
     public final int GRACE_PERIOD = 60000;
-    public final int MIN_CAPACITY = 1;
+    public final int MIN_CAPACITY = 2;
     public final int MAX_CAPACITY = 3;
 
     private final String AMI_ID = "ami-0bccbce17bd4d56d1";
