@@ -275,10 +275,8 @@ public class LoadBalancer {
     }
 
     private static void addRequestToCache(Request request) {
-        System.out.println("Cache with size " + requestsCache.size());
         if (requestsCache.size() == CACHE_MAX_SIZE) {
             Request lruRequest = null;
-            System.out.println("Remove least recently used request in cache...");
 
             for (String id : requestsCache.keySet()) {
                 Request requestInCache = requestsCache.get(id);
@@ -288,7 +286,7 @@ public class LoadBalancer {
                 }
             }
 
-            System.out.println("Removing least recently used request in cache with date " + lruRequest.getLastUsedTs().toString());
+            System.out.println("Removing least recently used request with ID " + lruRequest.getId() + " in cache with date " + lruRequest.getLastUsedTs().toString());
             requestsCache.remove(lruRequest.getId());
         }
 
