@@ -267,7 +267,7 @@ public class LoadBalancer {
         System.out.println("Cache miss...");
         Request mssRequest = Server.getWorkloadEstimate(request);
 
-        if (mssRequest.getId().equals(request.getId())) {
+        if (mssRequest != null && mssRequest.getId().equals(request.getId())) {
             addRequestToCache(mssRequest);
         }
 
