@@ -212,6 +212,8 @@ public class AutoScaler {
         System.out.println("averageCurrentWorkload: " + averageCurrentWorkload);
         System.out.println("averageCPUUtilization: " + averageCPUUtilization);
 
+        printStatusToFile(numberOfWorkers, averageCurrentWorkload, averageCPUUtilization);
+
         // We only want to scale up when above our max workload and cpu threshold, to avoid reacting to spikes on either metric
         if (averageCPUUtilization > CPU_MAX_THRESHOLD && averageCurrentWorkload > WORKLOAD_MAX_THRESHOLD && numberOfWorkers < MAX_CAPACITY) {
             System.out.println("Scaling up from " + numberOfWorkers + " to " + (numberOfWorkers + SCALING_STEP_UP));
@@ -220,6 +222,14 @@ public class AutoScaler {
             System.out.println("Scaling down from " + numberOfWorkers + " to " + (numberOfWorkers - SCALING_STEP_DOWN));
             terminateWorkerNodes(SCALING_STEP_DOWN);
         }
+    }
+
+    private void printStatusToFile(int numberOfWorkers, double averageCurrentWorkload, double averageCPUUtilization) {
+        String outputStr = "numberOfWorkers: " + numberOfWorkers + "\n" +"averageCurrentWorkload: " + averageCurrentWorkload + "\n" +"averageCPUUtilization: " + averageCPUUtilization);
+        FileOutputStream outputStream = new FileOutputStream("requests.txt", true);
+        byte[] strToBytes = str.getBytes();
+        outputStream.write(strToBytes);
+        outputStream.close();
     }
 
     private void terminateUnhealthyNodes() {
