@@ -46,7 +46,7 @@ public class LoadBalancer {
     public static final int HEALTH_CHECK_TIMEOUT = 10000;
     public static final int HEALTH_CHECK_THESHOLD = 2;
 
-    public static final long MAX_WORKLOAD = 500000000;
+    public static final long MAX_WORKLOAD = 2000000000;
     public static final int REQUEST_TIMEOUT = 300000;
     public static final int GRACE_PERIOD = 60000;
     public static final int MAX_REQUESTS = 3;
