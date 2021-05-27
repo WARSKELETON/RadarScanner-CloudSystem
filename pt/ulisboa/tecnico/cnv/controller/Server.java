@@ -153,7 +153,7 @@ public class Server {
     }
 
     public static void updateCurrentCPUUsage() {
-        long offsetInMilliseconds = 1000 * 60 * 10; // 10 minutes
+        long offsetInMilliseconds = 1000 * 60; // 1 minutes
 
         Dimension dimension = new Dimension();
         dimension.setName("InstanceId");
