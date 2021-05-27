@@ -110,7 +110,7 @@ public class LoadBalancer {
                 query += "&c=false";
             }
 
-            if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD) {
+            if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD && worker.getCurrentNumberRequests() > 1) {
                 System.out.println("Scaling up since laziest worker node will exceed the max workload supported.");
                 Server.requestScaleUp();
             }
