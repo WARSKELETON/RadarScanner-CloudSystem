@@ -130,7 +130,7 @@ public class AutoScaler {
         int futureNumberOfWorkers = Server.getNumberOfWorkers() + numberOfRequiredWorkers;
 
         if (futureNumberOfWorkers > MAX_CAPACITY) {
-            numberOfRequiredWorkers = futureNumberOfWorkers - MAX_CAPACITY;
+            numberOfRequiredWorkers = MAX_CAPACITY - Server.getNumberOfWorkers();
             if (numberOfRequiredWorkers == 0) return;
 
             System.out.println("Only creating " + numberOfRequiredWorkers + " worker nodes because MAX_CAPACITY was reached.");
@@ -255,7 +255,7 @@ public class AutoScaler {
         int futureNumberOfWorkers = Server.getNumberOfWorkers() - numberOfWorkersToTerminate;
 
         if (futureNumberOfWorkers < MIN_CAPACITY) {
-            numberOfWorkersToTerminate = MIN_CAPACITY - futureNumberOfWorkers;
+            numberOfWorkersToTerminate = Server.getNumberOfWorkers() - MIN_CAPACITY;
             if (numberOfWorkersToTerminate == 0) return;
 
             System.out.println("Only terminating " + numberOfWorkersToTerminate + " worker nodes because MAX_CAPACITY was reached.");
