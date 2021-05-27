@@ -142,7 +142,8 @@ public class AutoScaler {
                 .withMinCount(1)
                 .withMaxCount(numberOfRequiredWorkers)
                 .withKeyName(KEY_NAME)
-                .withSecurityGroups(SECURITY_GROUP);
+                .withSecurityGroups(SECURITY_GROUP)
+                .withMonitoring(true);
 
         RunInstancesResult runInstancesResult = ec2.runInstances(runInstancesRequest);
         List<Instance> newWorkers = runInstancesResult.getReservation().getInstances();
