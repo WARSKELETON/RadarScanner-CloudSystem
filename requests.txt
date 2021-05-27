@@ -25,28 +25,25 @@ numberOfWorkers: 3
 numberOfWorkers: 2
  averageCurrentWorkload: 0.0
  averageCPUUtilization: 0.0
- 
+
 numberOfWorkers: 1
  averageCurrentWorkload: 0.0
  averageCPUUtilization: 0.0
 numberOfWorkers: 1
  averageCurrentWorkload: 8.829601556E9
- averageCPUUtilization: 65.0
-numberOfWorkers: 1
- averageCurrentWorkload: 8.829601556E9
- averageCPUUtilization: 100.0
+ averageCPUUtilization: 78.0
 numberOfWorkers: 2
  averageCurrentWorkload: 4.414800778E9
- averageCPUUtilization: 50.0
+ averageCPUUtilization: 49.0
 numberOfWorkers: 2
  averageCurrentWorkload: 4.414800778E9
- averageCPUUtilization: 63.0
+ averageCPUUtilization: 53.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 4.414800778E9
+ averageCPUUtilization: 49.0
 numberOfWorkers: 2
  averageCurrentWorkload: 0.0
- averageCPUUtilization: 34.0
-numberOfWorkers: 2
- averageCurrentWorkload: 0.0
- averageCPUUtilization: 0.0
+ averageCPUUtilization: 19.0
 numberOfWorkers: 1
  averageCurrentWorkload: 0.0
  averageCPUUtilization: 0.0
