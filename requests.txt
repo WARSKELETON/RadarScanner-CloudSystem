@@ -1,115 +1,52 @@
-Current thread with id 12 
-Request{
-width=512,
-height=512,
-viewportTopLeftX=134,
-viewportTopLeftY=140,
-viewportBottomRightX=390,
-viewportBottomRightY=396,
-startingPointX=256,
-startingPointY=256,
-strategy='GREEDY_RANGE_SCAN',
-image='datasets/SIMPLE_VORONOI_512x512_1.png',
-metrics=Metrics{
-numberInstructions=11064190}
-}
-
-Current thread with id 12 
-Request{
-width=1024,
-height=1024,
-viewportTopLeftX=256,
-viewportTopLeftY=256,
-viewportBottomRightX=768,
-viewportBottomRightY=768,
-startingPointX=512,
-startingPointY=512,
-strategy='GREEDY_RANGE_SCAN',
-image='datasets/SIMPLE_VORONOI_1024x1024_1.png',
-metrics=Metrics{
-numberInstructions=37011974}
-}
-
-Current thread with id 12 
-Request{
-width=1024,
-height=1024,
-viewportTopLeftX=256,
-viewportTopLeftY=256,
-viewportBottomRightX=768,
-viewportBottomRightY=768,
-startingPointX=512,
-startingPointY=512,
-strategy='PROGRESSIVE_SCAN',
-image='datasets/SIMPLE_VORONOI_1024x1024_1.png',
-metrics=Metrics{
-numberInstructions=41634313}
-}
-
-Current thread with id 13 
-Request{
-width=512,
-height=512,
-viewportTopLeftX=128,
-viewportTopLeftY=128,
-viewportBottomRightX=384,
-viewportBottomRightY=384,
-startingPointX=256,
-startingPointY=256,
-strategy='GREEDY_RANGE_SCAN',
-image='datasets/SIMPLE_VORONOI_512x512_1.png',
-metrics=Metrics{
-numberInstructions=11064190}
-}
-
-Current thread with id 13 
-Request{
-width=512,
-height=512,
-viewportTopLeftX=128,
-viewportTopLeftY=128,
-viewportBottomRightX=384,
-viewportBottomRightY=384,
-startingPointX=256,
-startingPointY=256,
-strategy='PROGRESSIVE_SCAN',
-image='datasets/SIMPLE_VORONOI_512x512_1.png',
-metrics=Metrics{
-numberInstructions=12811181}
-}
-
-Current thread with id 16 
-Request{
-width=512,
-height=512,
-viewportTopLeftX=128,
-viewportTopLeftY=128,
-viewportBottomRightX=384,
-viewportBottomRightY=384,
-startingPointX=256,
-startingPointY=256,
-strategy='GRID_SCAN',
-image='datasets/SIMPLE_VORONOI_512x512_1.png',
-metrics=Metrics{
-numberInstructions=276878877}
-}
-
-Current thread with id 17 
-Request{
-width=512,
-height=512,
-viewportTopLeftX=128,
-viewportTopLeftY=128,
-viewportBottomRightX=384,
-viewportBottomRightY=384,
-startingPointX=252,
-startingPointY=256,
-strategy='GREEDY_RANGE_SCAN',
-image='datasets/SIMPLE_VORONOI_512x512_1.png',
-metrics=Metrics{
-numberInstructions=10759575}
-}
-
-Current thread with id 13 Request{id='-w512-h512-x0128-x1384-y0128-y1384-xS252-yS256-sPROGRESSIVE_SCAN-idatasets/SIMPLE_VORONOI_512x512_1.png', width=512, height=512, viewportTopLeftX=128, viewportTopLeftY=128, viewportBottomRightX=384, viewportBottomRightY=384, startingPointX=252, startingPointY=256, strategy='PROGRESSIVE_SCAN', image='datasets/SIMPLE_VORONOI_512x512_1.png', numberInstructions=12811181, isComplete=false}
-Current thread with id 13 Request{id='w=512&h=512&x0=128&x1=384&y0=128&y1=384&xS=252&yS=256&s=GRID_SCAN&i=SIMPLE_VORONOI_512x512_1.png', width=512, height=512, viewportTopLeftX=128, viewportTopLeftY=128, viewportBottomRightX=384, viewportBottomRightY=384, startingPointX=252, startingPointY=256, strategy='GRID_SCAN', image='datasets/SIMPLE_VORONOI_512x512_1.png', numberInstructions=282614873, isComplete=false}
-Current thread with id 13 Request{id='w=512&h=512&x0=128&x1=384&y0=128&y1=384&xS=252&yS=256&s=GRID_SCAN&i=SIMPLE_VORONOI_512x512_1.png', width=512, height=512, viewportTopLeftX=128, viewportTopLeftY=128, viewportBottomRightX=384, viewportBottomRightY=384, startingPointX=252, startingPointY=256, strategy='GRID_SCAN', image='datasets/SIMPLE_VORONOI_512x512_1.png', numberInstructions=282614581, isComplete=false}
+numberOfWorkers: 2
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 0.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 8.829601556E9
+ averageCPUUtilization: 0.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 8.829601556E9
+ averageCPUUtilization: 67.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 8.829601556E9
+ averageCPUUtilization: 99.0
+numberOfWorkers: 3
+ averageCurrentWorkload: 5.886401037E9
+ averageCPUUtilization: 66.0
+numberOfWorkers: 3
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 66.0
+numberOfWorkers: 3
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 31.0
+numberOfWorkers: 3
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 0.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 0.0
+ 
+numberOfWorkers: 1
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 0.0
+numberOfWorkers: 1
+ averageCurrentWorkload: 8.829601556E9
+ averageCPUUtilization: 65.0
+numberOfWorkers: 1
+ averageCurrentWorkload: 8.829601556E9
+ averageCPUUtilization: 100.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 4.414800778E9
+ averageCPUUtilization: 50.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 4.414800778E9
+ averageCPUUtilization: 63.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 34.0
+numberOfWorkers: 2
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 0.0
+numberOfWorkers: 1
+ averageCurrentWorkload: 0.0
+ averageCPUUtilization: 0.0
