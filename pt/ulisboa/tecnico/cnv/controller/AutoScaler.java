@@ -49,7 +49,7 @@ public class AutoScaler {
 
     public final int SCALE_PERIOD = 60000;
     public final int GRACE_PERIOD = 60000;
-    public final int MIN_CAPACITY = 2;
+    public final int MIN_CAPACITY = 1;
     public final int MAX_CAPACITY = 3;
 
     private final String AMI_ID = "ami-0da493e6c90c2f1c7";
@@ -220,10 +220,10 @@ public class AutoScaler {
         printStatusToFile(numberOfWorkers, averageCurrentWorkload, averageCPUUtilization);
 
         // We only want to scale up when above our max workload and cpu threshold, to avoid reacting to spikes on either metric
-        if (averageCPUUtilization > CPU_MAX_THRESHOLD && averageCurrentWorkload > WORKLOAD_MAX_THRESHOLD && numberOfWorkers < MAX_CAPACITY) {
+        if (averageCPUUtilization >= CPU_MAX_THRESHOLD && averageCurrentWorkload > WORKLOAD_MAX_THRESHOLD && numberOfWorkers < MAX_CAPACITY) {
             System.out.println("Scaling up from " + numberOfWorkers + " to " + (numberOfWorkers + SCALING_STEP_UP));
             createWorkerNodes(SCALING_STEP_UP);
-        } else if (averageCPUUtilization < CPU_MIN_THRESHOLD && averageCurrentWorkload < WORKLOAD_MIN_THRESHOLD && numberOfWorkers > MIN_CAPACITY) {
+        } else if (averageCPUUtilization <= CPU_MIN_THRESHOLD && averageCurrentWorkload < WORKLOAD_MIN_THRESHOLD && numberOfWorkers > MIN_CAPACITY) {
             System.out.println("Scaling down from " + numberOfWorkers + " to " + (numberOfWorkers - SCALING_STEP_DOWN));
             terminateWorkerNodes(SCALING_STEP_DOWN);
         }
