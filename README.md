@@ -78,6 +78,8 @@ For each alarm created previously, associate it with the autoscaling group:
 ab -n 1070 -c 10 "load-balancer-dns-name:80/scan?w=1024&h=1024&x0=256&x1=768&y0=256&y1=768&xS=512&yS=512&s=PROGRESSIVE_SCAN&i=SIMPLE_VORONOI_1024x1024_1.png" 
 ```
 
+http://3.239.244.199:8000/scan?w=2048&h=2048&x0=512&x1=1536&y0=512&y1=1536&xS=1024&yS=1024&s=PROGRESSIVE_SCAN&i=SIMPLE_VORONOI_2048x2048_1.png
+
 ----
 ## Authors
 
