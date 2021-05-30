@@ -1,7 +1,13 @@
 # RadarScanner@Cloud System
 _Simulated radar scanning service hosted in an elastic cluster of web servers._
 
-## WebServer Node - AWS Configuration
+## Architecture
+
+![alt text](./architecture.png "Architecture")
+
+Both controller node and web server worker nodes are AWS EC2 instances, and are required to be deployed.
+
+## WebServer and Controller Node - AWS Configuration
 
 ### EC2 Instance
 
@@ -25,7 +31,7 @@ _Simulated radar scanning service hosted in an elastic cluster of web servers._
 
 When the steps above are completed create an image.
 
-## Load Balancer - AWS Configuration
+## Load Balancer - AWS Configuration (Checkpoint delivery)
 
 1. Classic Load Balancer
 2. Enable VPC configuration with existing security group, port 80 open
@@ -36,14 +42,14 @@ When the steps above are completed create an image.
     * 2 Unhealthy threshold
     * 10 Healthy threshold
 
-## Launch Configuration - AWS Configuration
+## Launch Configuration - AWS Configuration (Checkpoint delivery)
 
 1. Give name -> cnv-launchconfig
 2. WebServer AMI and instance type (t2.micro)
 3. Existing security group (CNV-SSH-HTTP)
 4. Existing key pair
 
-## Auto Scaling group - AWS Configuration
+## Auto Scaling group - AWS Configuration (Checkpoint delivery)
 
 1. Give name -> cnv-autoscalinggroup
 2. Use previously create launch config
@@ -54,7 +60,7 @@ When the steps above are completed create an image.
 7. Desired capactiy -> 10 | Minimum capactiy -> 10 | Maximum capactiy -> 20
 8. No scaling policy
 
-## CloudWatch Alarms - AWS Configuration
+## CloudWatch Alarms - AWS Configuration (Checkpoint delivery)
 
 1. CPUUtilization for AutoScalingGroup
 2. Statistic Average
@@ -65,20 +71,24 @@ When the steps above are completed create an image.
 
 Repeat the previous steps for lower than 25%
 
-## Scaling Policies - AWS Configuration
+## Scaling Policies - AWS Configuration (Checkpoint delivery)
 
 For each alarm created previously, associate it with the autoscaling group:
 
 * Increase group size by 1 whenever the above metric surpasses 75%
 * Decrease group size by 1 whenever the above metric falls bellow 25%
 
+## Quick Request XL Test
+
+```shell
+ab -s 9999 -n 1 "http://<controller-node-ip>:8000/scan?w=2048&h=2048&x0=512&x1=1536&y0=512&y1=1536&xS=1024&yS=1024&s=GRID_SCAN&i=SIMPLE_VORONOI_2048x2048_1.png"
+```
+
 ## Quick Benchmark Test
 
 ```shell
-ab -n 1070 -c 10 "load-balancer-dns-name:80/scan?w=1024&h=1024&x0=256&x1=768&y0=256&y1=768&xS=512&yS=512&s=PROGRESSIVE_SCAN&i=SIMPLE_VORONOI_1024x1024_1.png" 
+ab -n 1070 -c 10 "http://<controller-node-ip>:8000/scan?w=1024&h=1024&x0=256&x1=768&y0=256&y1=768&xS=512&yS=512&s=PROGRESSIVE_SCAN&i=SIMPLE_VORONOI_1024x1024_1.png" 
 ```
-
-http://3.239.244.199:8000/scan?w=2048&h=2048&x0=512&x1=1536&y0=512&y1=1536&xS=1024&yS=1024&s=PROGRESSIVE_SCAN&i=SIMPLE_VORONOI_2048x2048_1.png
 
 ----
 ## Authors

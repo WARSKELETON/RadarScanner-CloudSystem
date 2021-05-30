@@ -73,18 +73,10 @@ public class WebServer {
 
 		if (currentRequest.isComplete()) return;
 
-		try {
-			String str = "Current thread with id " + threadId + " " + currentRequest.toString() + "\n";
-			FileOutputStream outputStream = new FileOutputStream(metricsFilename, true);
-			byte[] strToBytes = str.getBytes();
-			outputStream.write(strToBytes);
-			outputStream.close();
-			currentRequest.setComplete(true);
+		String str = "Current thread with id " + threadId + " " + currentRequest.toString() + "\n";
+		currentRequest.setComplete(true);
 
-			mss.saveRequest(currentRequest);
-		} catch (IOException exception) {
-			System.err.println("Caught IOException when writing to file");
-		}
+		mss.saveRequest(currentRequest);
 	}
 
 	public static void count(int incr) {
