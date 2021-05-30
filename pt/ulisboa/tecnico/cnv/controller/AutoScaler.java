@@ -52,7 +52,7 @@ public class AutoScaler {
     public final int MIN_CAPACITY = 1;
     public final int MAX_CAPACITY = 3;
 
-    private final String AMI_ID = "ami-0da493e6c90c2f1c7";
+    private final String AMI_ID = "ami-095f73a21e5593c54";
     private final String KEY_NAME = "CNV-lab-AWS";
     private final String SECURITY_GROUP = "CNV-SSH-HTTP";
 
