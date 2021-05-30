@@ -1,6 +1,16 @@
 # RadarScanner@Cloud System
 _Simulated radar scanning service hosted in an elastic cluster of web servers._
 
+## Structure
+
+| Module               |      Description      |
+| :------------------- | :-------------------: |
+| [BIT](BIT)     |      Custom made instrumentation tools       |
+| [Controller Node](pt/ulisboa/tecnico/cnv/controller)     |  Static Server with Load Balancer and AutoScaler |
+| [MSS](pt/ulisboa/tecnico/cnv/mss) |   Metrics Storage System, API for DynamoDB   |
+| [Worker Node](pt/ulisboa/tecnico/cnv/server)|    Web Server   |
+| [Solver](pt/ulisboa/tecnico/cnv/solver)     |      Solver Instrumented Classes       |
+
 ## Architecture
 
 ![alt text](./architecture.png "Architecture")
@@ -27,10 +37,18 @@ Both controller node and web server worker nodes are AWS EC2 instances, and are 
 2. Install Java 7 SDK
 3. Copy project directory to the instance's home directory
 4. Define required CLASSPATH and disable java stackmap utilization
-5. Edit rc.local for boot initialization of the WebServer
+5. Edit rc.local for boot initialization of the WebServer, for worker node
 
 When the steps above are completed create an image.
 
+#### Run Worker Node
+```shell
+java pt.ulisboa.tecnico.cnv.server.WebServer -address 0.0.0.0 -port 8000 -maps /home/ec2-user/cnv-project/datasets
+```
+#### Run Controller Node
+```shell
+java pt.ulisboa.tecnico.cnv.controller.Server
+```
 ## Load Balancer - AWS Configuration (Checkpoint delivery)
 
 1. Classic Load Balancer
@@ -101,4 +119,4 @@ ab -n 1070 -c 10 "http://<controller-node-ip>:8000/scan?w=1024&h=1024&x0=256&x1=
 | -------|-------------------|--------------------------------------|---------------------------------------------|
 | 90704  | Andre Augusto     | <https://github.com/AndreAugusto11>  | <mailto:andre.augusto@tecnico.ulisboa.pt>   |
 | 90744  | Lucas Vicente     | <https://github.com/WARSKELETON>     | <mailto:lucasvicente@tecnico.ulisboa.pt>    |
-| 90751  | Manuel Mascarenhas     | <https://github.com/zemfoliveira>    | <mailto:jose.f.oliveira@tecnico.ulisboa.pt> |
+| 90751  | Manuel Mascarenhas     | <https://github.com/Mascarenhas12>    | <mailto:manuel.mascarenhas@tecnico.ulisboa.pt> |
