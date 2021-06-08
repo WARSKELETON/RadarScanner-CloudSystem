@@ -236,6 +236,9 @@ public class MSS {
         } else if (viewportArea > VIEWPORT_AREA_1024 && viewportArea <= VIEWPORT_AREA_2048) {
             bounds.add(VIEWPORT_AREA_1024);
             bounds.add(VIEWPORT_AREA_2048);
+        } else {
+            bounds.add(VIEWPORT_AREA_2048);
+            bounds.add(Long.MAX_VALUE);
         }
         return bounds;
     }
