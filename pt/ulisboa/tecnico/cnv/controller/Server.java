@@ -125,9 +125,9 @@ public class Server {
 
         synchronized (workerLock) {
             for (WorkerNode worker : workers.values()) {
-                if (laziestWorkerNode == null && worker.getInstance().getState().getName().equals("running") && worker.isHealthy()) {
+                if (laziestWorkerNode == null && worker.getInstance().getState().getName().equals("running") && worker.isHealthy() && worker.getCurrentNumberRequests() < 5) {
                     laziestWorkerNode = worker;
-                } else if (laziestWorkerNode != null && worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload() && worker.getInstance().getState().getName().equals("running") && worker.isHealthy()) {
+                } else if (laziestWorkerNode != null && worker.getCurrentWorkload() < laziestWorkerNode.getCurrentWorkload() && worker.getInstance().getState().getName().equals("running") && worker.isHealthy() && worker.getCurrentNumberRequests() < 5) {
                     laziestWorkerNode = worker;
                 }
             }
