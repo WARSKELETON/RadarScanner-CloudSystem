@@ -142,6 +142,20 @@ public class Server {
         return laziestWorkerNode;
     }
 
+    public static void incrementWorkerNode(WorkerNode worker, long estimateWorkload) {
+        synchronized (workerLock) {
+            worker.incrementCurrentNumberRequests();
+            worker.incrementCurrentWorkload(estimateWorkload);
+        }
+    }
+
+    public static void decrementWorkerNode(WorkerNode worker, long estimateWorkload) {
+        synchronized (workerLock) {
+            worker.decrementCurrentNumberRequests();
+            worker.decrementCurrentWorkload(estimateWorkload);
+        }
+    }
+
     public static void addWorkerNode(Instance instance) {
         workers.put(instance.getInstanceId(), new WorkerNode(instance));
         System.out.println("Added worker node with ID " + instance.getInstanceId());

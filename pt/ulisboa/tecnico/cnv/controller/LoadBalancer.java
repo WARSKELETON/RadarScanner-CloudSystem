@@ -83,9 +83,6 @@ public class LoadBalancer {
 
             final String originalQuery = t.getRequestURI().getQuery();
             String estimateQueryRequest = originalQuery + "&c=false";
-            // Get the laziest most available worker node
-            WorkerNode worker = checkWorkerNodeAvailability(Server.getLaziestWorkerNode());
-            String workerIp = worker.getInstance().getPublicIpAddress();
 
             System.out.println("> Query:\t" + estimateQueryRequest);
 
@@ -110,6 +107,10 @@ public class LoadBalancer {
                 query += "&c=false";
             }
 
+            // Get the laziest most available worker node
+            WorkerNode worker = checkWorkerNodeAvailability(Server.getLaziestWorkerNode());
+            String workerIp = worker.getInstance().getPublicIpAddress();
+
             if (estimateWorkload + worker.getCurrentWorkload() > MAX_WORKLOAD && worker.getCurrentNumberRequests() > 1) {
                 System.out.println("Scaling up since laziest worker node will exceed the max workload supported.");
                 Server.requestScaleUp();
@@ -125,8 +126,7 @@ public class LoadBalancer {
                     connection.setConnectTimeout(REQUEST_TIMEOUT);
                     System.out.println("Load Balancer forwarding scan request to worker node with IP address " + workerIp);
 
-                    worker.incrementCurrentNumberRequests();
-                    worker.incrementCurrentWorkload(estimateWorkload);
+                    Server.incrementWorkerNode(worker, estimateWorkload);
 
                     int status = connection.getResponseCode();
                     if (status == HttpURLConnection.HTTP_OK) {
@@ -146,7 +146,7 @@ public class LoadBalancer {
                         final OutputStream os = t.getResponseBody();
 
                         // Convert response body to byte array
-                        byte[] bytes = new byte[1024];
+                        byte[] bytes = new byte[16384];
                         int length;
                         while ((length = in.read(bytes)) != -1) {
                             os.write(bytes, 0, length);
@@ -157,17 +157,14 @@ public class LoadBalancer {
                         os.close();
 
                         System.out.println("> Sent response to " + t.getRemoteAddress().toString());
-                        worker.decrementCurrentNumberRequests();
-                        worker.decrementCurrentWorkload(estimateWorkload);
+                        Server.decrementWorkerNode(worker, estimateWorkload);
                         break;
                     }
                     failedRequests++;
-                    worker.decrementCurrentNumberRequests();
-                    worker.decrementCurrentWorkload(estimateWorkload);
+                    Server.decrementWorkerNode(worker, estimateWorkload);
                 } catch (Exception e) {
                     failedRequests++;
-                    worker.decrementCurrentNumberRequests();
-                    worker.decrementCurrentWorkload(estimateWorkload);
+                    Server.decrementWorkerNode(worker, estimateWorkload);
                 }
 
                 // After max requests consecutive fails the worker node is considered unhealthy
